@@ -20,7 +20,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Brechó Online",
+  title: "Carcamana's Brechó",
   description: "Roupas e acessórios de segunda mão selecionados com carinho.",
 };
 

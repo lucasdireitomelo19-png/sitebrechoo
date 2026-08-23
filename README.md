@@ -1,4 +1,4 @@
-# Brechó Online
+# Carcamana's Brechó
 
 E-commerce para brechó: loja pública com checkout via PagBank (PagSeguro) e área
 administrativa privada para cadastrar produtos, acompanhar insights e gerenciar pedidos.

@@ -28,7 +28,7 @@ export default async function AdminDashboardLayout({
       <div className="flex min-h-screen">
         <aside className="hidden w-56 shrink-0 border-r border-stone-200 bg-white p-4 sm:block">
           <div className="mb-6 px-2">
-            <p className="text-sm font-semibold text-stone-900">Brechó Admin</p>
+            <p className="text-sm font-semibold text-stone-900">Carcamana&apos;s Admin</p>
             <p className="truncate text-xs text-stone-500">{session.user.email}</p>
           </div>
           <nav className="space-y-1">
@@ -60,7 +60,7 @@ export default async function AdminDashboardLayout({
 
         <div className="flex-1">
           <header className="flex items-center justify-between border-b border-stone-200 bg-white px-4 py-3 sm:hidden">
-            <p className="text-sm font-semibold">Brechó Admin</p>
+            <p className="text-sm font-semibold">Carcamana&apos;s Admin</p>
             <form action={signOutAction}>
               <button type="submit" className="text-sm text-stone-500">
                 Sair

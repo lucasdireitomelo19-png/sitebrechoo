@@ -12,7 +12,7 @@ export function Footer({ categories }: { categories: MenuCategory[] }) {
     <footer className="mt-20 bg-espresso text-cream/70">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-4 sm:px-6">
         <div className="sm:col-span-1">
-          <p className="font-serif text-2xl italic text-cream">Brechó</p>
+          <p className="font-serif text-2xl italic text-cream">Carcamana&apos;s</p>
           <p className="mt-3 text-sm leading-relaxed">
             Peças de segunda mão selecionadas com carinho. Moda circular, com estilo.
           </p>
@@ -89,7 +89,7 @@ export function Footer({ categories }: { categories: MenuCategory[] }) {
       </div>
 
       <div className="border-t border-cream/10 px-4 py-5 text-xs text-cream/40 sm:px-6">
-        <p>Brechó Online — peças de segunda mão selecionadas com carinho.</p>
+        <p>Carcamana&apos;s Brechó — peças de segunda mão selecionadas com carinho.</p>
         <p className="mt-1">Pagamentos processados com segurança via PagBank.</p>
       </div>
     </footer>

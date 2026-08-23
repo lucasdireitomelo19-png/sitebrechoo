@@ -18,7 +18,7 @@ export function Header({ categories }: { categories: MenuCategory[] }) {
           href="/"
           className="font-serif text-xl italic tracking-tight text-espresso sm:text-2xl"
         >
-          Brechó
+          Carcamana&apos;s
         </Link>
 
         <nav className="hidden items-center gap-5 sm:flex">

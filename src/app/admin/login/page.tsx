@@ -3,7 +3,7 @@ import { AuthError } from "next-auth";
 import { signIn } from "@/lib/auth";
 
 export const metadata = {
-  title: "Login admin | Brechó",
+  title: "Login admin | Carcamana's",
 };
 
 async function loginAction(formData: FormData) {
