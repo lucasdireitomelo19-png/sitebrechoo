@@ -6,12 +6,12 @@ export function CategoryTiles({ categories }: { categories: CategoryTile[] }) {
   if (categories.length === 0) return null;
 
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+    <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-5 sm:overflow-visible sm:px-0 sm:pb-0">
       {categories.map((c) => (
         <Link
           key={c.slug}
           href={`/?categoria=${c.slug}`}
-          className="group relative aspect-square overflow-hidden rounded-lg bg-cream-dark"
+          className="group relative aspect-square w-[38%] shrink-0 snap-start overflow-hidden rounded-lg bg-cream-dark sm:w-auto sm:shrink"
         >
           {c.imageUrl && (
             // eslint-disable-next-line @next/next/no-img-element
