@@ -72,11 +72,11 @@ export default async function HomePage({
           <h2 className="font-extrabold text-2xl text-espresso sm:text-3xl">
             {query ? `Resultados para "${query}"` : "Peças selecionadas"}
           </h2>
-          <p className="mt-1 text-sm text-espresso-soft">
+          <p className="mt-1 text-sm text-espresso">
             {query ? (
               <>
                 {products.length} peça(s) encontrada(s).{" "}
-                <Link href="/" className="underline transition hover:text-sage">
+                <Link href="/" className="underline transition hover:text-sage-dark">
                   Limpar busca
                 </Link>
               </>
@@ -113,7 +113,7 @@ export default async function HomePage({
         </div>
 
         {products.length === 0 ? (
-          <p className="py-16 text-center text-sm text-espresso-soft">
+          <p className="py-16 text-center text-sm text-espresso">
             {query
               ? "Nenhuma peça encontrada para essa busca."
               : "Nenhuma peça disponível nessa categoria no momento."}

@@ -12,8 +12,6 @@
   --color-sage: #82875f;
   --color-sage-dark: #313d1f;
   --color-line: #d0ba8e;
-  /* Ponto final do degradê de fundo: creme-escuro mesclado com o verde escuro */
-  --color-gradient-end: #989374;
 }
 
 @theme inline {
@@ -32,13 +30,7 @@
 }
 
 body {
-  background: linear-gradient(
-      180deg,
-      var(--color-cream) 0%,
-      var(--color-cream-dark) 55%,
-      var(--color-gradient-end) 100%
-    )
-    fixed;
+  background: var(--color-sage);
   color: var(--foreground);
 }
 

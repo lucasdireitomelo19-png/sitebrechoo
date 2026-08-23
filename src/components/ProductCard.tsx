@@ -40,15 +40,15 @@ export function ProductCard({ product }: { product: ProductCardData }) {
       </div>
       <div className="pt-3">
         {product.brand && (
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-sage">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-sage-dark">
             {product.brand}
           </p>
         )}
-        <p className="mt-0.5 truncate text-sm font-medium text-espresso transition-colors group-hover:text-sage">
+        <p className="mt-0.5 truncate text-sm font-medium text-espresso transition-colors group-hover:text-sage-dark">
           {product.title}
         </p>
         <div className="mt-1 flex items-center justify-between">
-          {product.size && <p className="text-xs text-espresso-soft">Tam. {product.size}</p>}
+          {product.size && <p className="text-xs text-espresso">Tam. {product.size}</p>}
           <p className="text-sm font-semibold text-espresso">
             {formatCentsToBRL(product.priceCents)}
           </p>
