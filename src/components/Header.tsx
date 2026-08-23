@@ -16,7 +16,7 @@ export function Header({ categories }: { categories: MenuCategory[] }) {
 
         <Link
           href="/"
-          className="font-serif text-xl italic tracking-tight text-espresso sm:text-2xl"
+          className="font-extrabold text-xl tracking-tight text-espresso sm:text-2xl"
         >
           Carcamana&apos;s
         </Link>

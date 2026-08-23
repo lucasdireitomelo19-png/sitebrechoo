@@ -69,7 +69,7 @@ export default async function HomePage({
 
       <div id="catalogo" className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <div className="mb-8">
-          <h2 className="font-serif text-2xl italic text-espresso sm:text-3xl">
+          <h2 className="font-extrabold text-2xl text-espresso sm:text-3xl">
             {query ? `Resultados para "${query}"` : "Peças selecionadas"}
           </h2>
           <p className="mt-1 text-sm text-espresso-soft">

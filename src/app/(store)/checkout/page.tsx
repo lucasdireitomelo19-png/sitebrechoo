@@ -85,7 +85,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
-      <h1 className="mb-6 font-serif text-2xl italic text-espresso">Finalizar compra</h1>
+      <h1 className="mb-6 font-extrabold text-2xl text-espresso">Finalizar compra</h1>
 
       <div className="mb-6 rounded-md bg-cream-dark/60 p-4 text-sm text-espresso-soft">
         <p className="flex justify-between">

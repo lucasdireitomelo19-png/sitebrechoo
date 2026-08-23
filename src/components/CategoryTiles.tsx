@@ -22,7 +22,7 @@ export function CategoryTiles({ categories }: { categories: CategoryTile[] }) {
             />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-espresso/70 via-espresso/0 to-espresso/0" />
-          <span className="absolute bottom-2 left-2 font-serif text-sm italic text-cream sm:text-base">
+          <span className="absolute bottom-2 left-2 font-extrabold text-sm text-cream sm:text-base">
             {c.name}
           </span>
         </Link>

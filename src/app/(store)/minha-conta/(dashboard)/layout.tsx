@@ -23,7 +23,7 @@ export default async function CustomerAccountLayout({
       <div className="mb-8 flex items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-sage">Minha conta</p>
-          <h1 className="mt-1 font-serif text-2xl italic text-espresso">Olá, {session.user.name}</h1>
+          <h1 className="mt-1 font-extrabold text-2xl text-espresso">Olá, {session.user.name}</h1>
         </div>
         <form action={signOutAction}>
           <button

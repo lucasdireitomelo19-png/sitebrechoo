@@ -12,7 +12,7 @@ export function Footer({ categories }: { categories: MenuCategory[] }) {
     <footer className="mt-20 bg-sage-dark text-cream/70">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-4 sm:px-6">
         <div className="sm:col-span-1">
-          <p className="font-serif text-2xl italic text-cream">Carcamana&apos;s</p>
+          <p className="font-extrabold text-2xl text-cream">Carcamana&apos;s</p>
           <p className="mt-3 text-sm leading-relaxed">
             Peças de segunda mão selecionadas com carinho. Moda circular, com estilo.
           </p>

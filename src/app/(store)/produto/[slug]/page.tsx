@@ -64,7 +64,7 @@ export default async function ProductPage({
               {product.category.name}
             </p>
           )}
-          <h1 className="mt-1 font-serif text-3xl italic text-espresso">{product.title}</h1>
+          <h1 className="mt-1 font-extrabold text-3xl text-espresso">{product.title}</h1>
           <p className="mt-3 text-2xl font-semibold text-espresso">
             {formatCentsToBRL(product.priceCents)}
           </p>

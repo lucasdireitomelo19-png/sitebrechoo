@@ -20,7 +20,7 @@ export default async function CustomerSignupPage({
   return (
     <div className="mx-auto flex max-w-sm flex-col px-4 py-16 sm:px-6">
       <p className="text-xs font-semibold uppercase tracking-wider text-sage">Minha conta</p>
-      <h1 className="mt-1 font-serif text-3xl italic text-espresso">Criar conta</h1>
+      <h1 className="mt-1 font-extrabold text-3xl text-espresso">Criar conta</h1>
       <p className="mt-2 text-sm text-espresso-soft">
         Crie sua conta para acompanhar seus pedidos e o rastreio das suas compras.
       </p>

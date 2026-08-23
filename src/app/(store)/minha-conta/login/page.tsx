@@ -39,7 +39,7 @@ export default async function CustomerLoginPage({
   return (
     <div className="mx-auto flex max-w-sm flex-col px-4 py-16 sm:px-6">
       <p className="text-xs font-semibold uppercase tracking-wider text-sage">Minha conta</p>
-      <h1 className="mt-1 font-serif text-3xl italic text-espresso">Entrar</h1>
+      <h1 className="mt-1 font-extrabold text-3xl text-espresso">Entrar</h1>
       <p className="mt-2 text-sm text-espresso-soft">
         Acompanhe seus pedidos e o rastreio das suas compras.
       </p>

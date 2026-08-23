@@ -7,7 +7,7 @@ export function Hero() {
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sage">
           Moda circular
         </p>
-        <h1 className="mx-auto mt-3 max-w-2xl font-serif text-4xl italic leading-tight text-espresso sm:text-5xl">
+        <h1 className="mx-auto mt-3 max-w-2xl font-extrabold text-4xl leading-tight text-espresso sm:text-5xl">
           Peças com história, escolhidas com carinho
         </h1>
         <p className="mx-auto mt-4 max-w-md text-sm text-espresso-soft sm:text-base">

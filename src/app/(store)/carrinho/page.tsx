@@ -26,7 +26,7 @@ export default function CartPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
-      <h1 className="mb-6 font-serif text-2xl italic text-espresso">Seu carrinho</h1>
+      <h1 className="mb-6 font-extrabold text-2xl text-espresso">Seu carrinho</h1>
 
       <ul className="divide-y divide-line border-y border-line">
         {items.map((item) => (

@@ -31,7 +31,7 @@ export function MobileMenu({ categories }: { categories: MenuCategory[] }) {
             />
             <div className="absolute inset-y-0 left-0 flex w-72 max-w-[80vw] flex-col bg-cream shadow-xl">
               <div className="flex items-center justify-between border-b border-line px-4 py-4">
-                <span className="font-serif text-lg italic text-espresso">Menu</span>
+                <span className="font-extrabold text-lg text-espresso">Menu</span>
                 <button aria-label="Fechar menu" onClick={() => setOpen(false)}>
                   <CloseIcon className="h-5 w-5 text-espresso-soft" />
                 </button>

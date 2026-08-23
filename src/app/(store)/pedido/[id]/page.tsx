@@ -61,7 +61,7 @@ export default async function OrderStatusPage({
       <p className="text-xs font-semibold uppercase tracking-wider text-sage">
         Pedido #{order.id.slice(-8)}
       </p>
-      <h1 className="mt-1 font-serif text-3xl italic text-espresso">Obrigado pela compra!</h1>
+      <h1 className="mt-1 font-extrabold text-3xl text-espresso">Obrigado pela compra!</h1>
 
       <span className={`mt-4 inline-block rounded-full px-3 py-1 text-sm font-medium ${info.tone}`}>
         {info.label}
