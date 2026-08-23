@@ -3,8 +3,8 @@
 E-commerce para brechó: loja pública com checkout via PagBank (PagSeguro) e área
 administrativa privada para cadastrar produtos, acompanhar insights e gerenciar pedidos.
 
-Preparado para deploy na **Vercel** (Postgres + Blob Storage), mas roda em qualquer
-ambiente Node com um banco Postgres.
+Preparado para deploy na **Vercel** (Postgres + Blob Storage) ou na **Railway**
+(Postgres + disco persistente), mas roda em qualquer ambiente Node com um banco Postgres.
 
 ## Stack
 
@@ -61,15 +61,44 @@ Credenciais de admin padrão (definidas em `.env`, mude antes de usar em produç
    — os pedidos continuam sendo registrados e você combina o pagamento manualmente. Quando for
    configurar, veja a seção abaixo e adicione as variáveis do PagBank no projeto.
 
+## Deploy na Railway (alternativa à Vercel)
+
+Diferença principal: a Railway roda o app como um container que fica no ar (não é
+serverless), então o upload de fotos pode voltar a usar disco local — não precisa do
+Vercel Blob. Só é preciso um **Volume** pra esse disco não se perder a cada deploy.
+
+1. Crie um projeto na Railway a partir deste repositório GitHub (**New Project → Deploy from
+   GitHub repo**).
+2. Adicione um banco: **New → Database → Add PostgreSQL** no mesmo projeto. A Railway
+   disponibiliza a variável de conexão do Postgres automaticamente — no serviço da aplicação,
+   em **Variables**, adicione `DATABASE_URL` referenciando o Postgres (`${{Postgres.DATABASE_URL}}`,
+   a Railway sugere isso automaticamente ao clicar em "New Variable → Add Reference").
+3. **(Opcional, recomendado)** Adicione um **Volume** no serviço da aplicação (aba **Settings
+   → Volumes**) montado no caminho `/app/public/uploads`, para as fotos dos produtos
+   sobreviverem a redeploys. Sem isso, o upload local funciona mas some no próximo deploy —
+   e nesse caso é melhor configurar `BLOB_READ_WRITE_TOKEN` (Vercel Blob funciona de qualquer
+   host, não só na Vercel) em vez do disco local.
+4. Em **Variables**, defina `AUTH_SECRET`/`NEXTAUTH_SECRET`, `NEXTAUTH_URL` e
+   `NEXT_PUBLIC_SITE_URL` (o domínio que a Railway gerar, ou seu domínio próprio),
+   `ADMIN_EMAIL`, `ADMIN_PASSWORD`.
+5. A Railway detecta o projeto Next.js automaticamente (Nixpacks) e usa os scripts `build` e
+   `start` do `package.json` — o `start` já roda `prisma migrate deploy` antes de subir o
+   servidor, então as migrações aplicam sozinhas a cada deploy.
+6. **Criar o admin em produção**: mesma ideia da Vercel — rode o seed uma vez apontando para
+   a `DATABASE_URL` da Railway:
+   ```bash
+   DATABASE_URL="<url do banco na Railway>" npm run db:seed
+   ```
+
 ## Variáveis de ambiente
 
 | Variável | Descrição |
 | --- | --- |
-| `DATABASE_URL` | Conexão Postgres do Prisma (definida automaticamente pela Vercel ao conectar o banco) |
+| `DATABASE_URL` | Conexão Postgres do Prisma (definida automaticamente pela Vercel/Railway ao conectar o banco) |
 | `AUTH_SECRET` / `NEXTAUTH_SECRET` | Segredo do NextAuth — gere com `openssl rand -base64 32` |
 | `NEXTAUTH_URL` | URL pública do site (usada pelo NextAuth) |
 | `ADMIN_NAME` / `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Usadas apenas pelo `prisma/seed.ts` para criar o usuário admin inicial |
-| `BLOB_READ_WRITE_TOKEN` | Token do Vercel Blob (definido automaticamente ao conectar um Blob Store). Sem ele, uploads salvam em `public/uploads` (só funciona fora da Vercel) |
+| `BLOB_READ_WRITE_TOKEN` | Token do Vercel Blob (definido automaticamente ao conectar um Blob Store na Vercel; funciona a partir de qualquer host, inclusive Railway). Sem ele, uploads salvam em `public/uploads` (precisa de disco persistente — funciona numa VPS ou Railway com Volume; não persiste na Vercel) |
 | `PAGBANK_API_URL` | `https://sandbox.api.pagseguro.com` (testes) ou `https://api.pagseguro.com` (produção) |
 | `PAGBANK_TOKEN` | Token de autenticação da sua conta PagBank. **Opcional** — sem ele, o checkout avisa o cliente que o pagamento online ainda não está disponível, mas o pedido é registrado normalmente |
 | `PAGBANK_NOTIFICATION_URL` | URL pública que o PagBank vai chamar para notificar pagamentos (`/api/webhooks/pagbank`) |
@@ -100,7 +129,7 @@ Credenciais de admin padrão (definidas em `.env`, mude antes de usar em produç
 prisma/schema.prisma        Modelos: User, Category, Product, ProductImage, Order, OrderItem
 src/lib/auth.ts             Configuração do NextAuth (login do admin)
 src/lib/pagbank.ts          Cliente da Checkout API do PagBank
-src/lib/upload.ts           Upload de imagens (Vercel Blob, com fallback local em dev)
+src/lib/upload.ts           Upload de imagens (Vercel Blob se configurado, senão disco local)
 src/lib/actions/            Server Actions do admin (produtos, pedidos)
 src/app/(store)/            Loja pública (home, produto, carrinho, checkout, status do pedido)
 src/app/admin/              Login e painel administrativo (protegidos por middleware/proxy)
