@@ -53,7 +53,7 @@ export default async function HomePage({
       {showDiscovery && (
         <>
           <Hero />
-          <div className="mx-auto max-w-6xl px-4 pt-10 sm:px-6">
+          <div className="pt-10">
             <Reveal>
               <CategoryTiles
                 categories={categoryTiles.map((c) => ({
