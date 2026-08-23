@@ -1,8 +1,51 @@
+import { cache } from "react";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatCentsToBRL } from "@/lib/money";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { getDictionary } from "@/lib/i18n";
+
+const getProductBySlug = cache(async (slug: string) => {
+  return prisma.product.findUnique({
+    where: { slug },
+    include: { images: { orderBy: { position: "asc" } }, category: true },
+  });
+});
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
+
+  if (!product || product.status === "ARCHIVED") {
+    return { title: "Peça não encontrada | Carcamana's" };
+  }
+
+  const title = `${product.title} | Carcamana's`;
+  const description = product.description.slice(0, 160);
+  const imageUrl = product.images[0]?.url;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      images: imageUrl ? [{ url: imageUrl }] : undefined,
+    },
+    twitter: {
+      card: imageUrl ? "summary_large_image" : "summary",
+      title,
+      description,
+      images: imageUrl ? [imageUrl] : undefined,
+    },
+  };
+}
 
 export default async function ProductPage({
   params,
@@ -11,13 +54,7 @@ export default async function ProductPage({
 }) {
   const { slug } = await params;
 
-  const [product, t] = await Promise.all([
-    prisma.product.findUnique({
-      where: { slug },
-      include: { images: { orderBy: { position: "asc" } }, category: true },
-    }),
-    getDictionary(),
-  ]);
+  const [product, t] = await Promise.all([getProductBySlug(slug), getDictionary()]);
 
   if (!product || product.status === "ARCHIVED") {
     notFound();

@@ -62,17 +62,20 @@ export async function POST(request: Request) {
     await prisma.$transaction(async (tx) => {
       await tx.order.update({ where: { id: order.id }, data: { status: nextStatus } });
 
-      if (nextStatus === "PAID" && order.status !== "PAID") {
+      // O estoque é reservado na criação do pedido (checkout), não aqui —
+      // então uma confirmação de pagamento não mexe no estoque. Só um
+      // cancelamento/reembolso devolve a peça, e só uma vez.
+      const wasHolding = order.status !== "CANCELED" && order.status !== "REFUNDED";
+      if ((nextStatus === "CANCELED" || nextStatus === "REFUNDED") && wasHolding) {
         for (const item of order.items) {
           if (!item.productId) continue;
           const product = await tx.product.findUnique({ where: { id: item.productId } });
           if (!product) continue;
-          const remaining = Math.max(product.stock - item.quantity, 0);
           await tx.product.update({
             where: { id: product.id },
             data: {
-              stock: remaining,
-              status: remaining === 0 ? "SOLD" : product.status,
+              stock: { increment: item.quantity },
+              status: product.status === "SOLD" ? "PUBLISHED" : product.status,
             },
           });
         }

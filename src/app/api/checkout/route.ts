@@ -7,6 +7,12 @@ function onlyDigits(value: string | undefined | null): string {
   return (value ?? "").replace(/\D/g, "");
 }
 
+class OutOfStockError extends Error {
+  constructor(public productTitle: string) {
+    super(`Estoque insuficiente para: ${productTitle}`);
+  }
+}
+
 export async function POST(request: Request) {
   const json = await request.json().catch(() => null);
   const parsed = checkoutSchema.safeParse(json);
@@ -48,31 +54,62 @@ export async function POST(request: Request) {
     return sum + product.priceCents * item.quantity;
   }, 0);
 
-  const order = await prisma.order.create({
-    data: {
-      status: "PENDING",
-      totalCents,
-      customerName: customer.name,
-      customerEmail: customer.email,
-      customerPhone: customer.phone || null,
-      customerTaxId: customer.taxId || null,
-      shippingAddress: shipping ? `${shipping.street}, ${shipping.number}${shipping.complement ? ` - ${shipping.complement}` : ""}` : null,
-      shippingCity: shipping?.city ?? null,
-      shippingState: shipping?.state ?? null,
-      shippingZip: shipping?.zip ?? null,
-      items: {
-        create: items.map((item) => {
-          const product = productById.get(item.productId)!;
-          return {
-            productId: product.id,
-            titleSnapshot: product.title,
-            priceCentsSnapshot: product.priceCents,
-            quantity: item.quantity,
-          };
-        }),
-      },
-    },
-  });
+  let order;
+  try {
+    order = await prisma.$transaction(async (tx) => {
+      // Reserva o estoque de forma atômica: se duas pessoas comprarem a
+      // mesma peça ao mesmo tempo, só a primeira transação consegue
+      // decrementar — a segunda cai no catch abaixo com "estoque insuficiente".
+      for (const item of items) {
+        const product = productById.get(item.productId)!;
+        const result = await tx.product.updateMany({
+          where: { id: item.productId, status: "PUBLISHED", stock: { gte: item.quantity } },
+          data: { stock: { decrement: item.quantity } },
+        });
+        if (result.count === 0) {
+          throw new OutOfStockError(product.title);
+        }
+        const updated = await tx.product.findUnique({
+          where: { id: item.productId },
+          select: { stock: true },
+        });
+        if (updated?.stock === 0) {
+          await tx.product.update({ where: { id: item.productId }, data: { status: "SOLD" } });
+        }
+      }
+
+      return tx.order.create({
+        data: {
+          status: "PENDING",
+          totalCents,
+          customerName: customer.name,
+          customerEmail: customer.email,
+          customerPhone: customer.phone || null,
+          customerTaxId: customer.taxId || null,
+          shippingAddress: shipping ? `${shipping.street}, ${shipping.number}${shipping.complement ? ` - ${shipping.complement}` : ""}` : null,
+          shippingCity: shipping?.city ?? null,
+          shippingState: shipping?.state ?? null,
+          shippingZip: shipping?.zip ?? null,
+          items: {
+            create: items.map((item) => {
+              const product = productById.get(item.productId)!;
+              return {
+                productId: product.id,
+                titleSnapshot: product.title,
+                priceCentsSnapshot: product.priceCents,
+                quantity: item.quantity,
+              };
+            }),
+          },
+        },
+      });
+    });
+  } catch (error) {
+    if (error instanceof OutOfStockError) {
+      return NextResponse.json({ error: error.message }, { status: 409 });
+    }
+    throw error;
+  }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? new URL(request.url).origin;
   const phoneDigits = onlyDigits(customer.phone);

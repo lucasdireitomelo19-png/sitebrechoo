@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 import { formatCentsToBRL } from "@/lib/money";
 import { trackingUrl } from "@/lib/tracking";
 import { getDictionary, getLocale, format } from "@/lib/i18n";
@@ -13,7 +14,7 @@ export default async function OrderStatusPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [order, t, locale] = await Promise.all([
+  const [order, session, t, locale] = await Promise.all([
     prisma.order.findUnique({
       where: { id },
       include: {
@@ -21,11 +22,22 @@ export default async function OrderStatusPage({
         trackingEvents: { orderBy: { occurredAt: "desc" } },
       },
     }),
+    auth(),
     getDictionary(),
     getLocale(),
   ]);
 
   if (!order) notFound();
+
+  // O link do pedido funciona sem login (checkout de convidado), mas se
+  // alguém estiver logado como cliente, só pode ver os próprios pedidos.
+  const sessionUser = session?.user as { email?: string | null; userType?: string } | undefined;
+  if (
+    sessionUser?.userType === "customer" &&
+    sessionUser.email?.toLowerCase() !== order.customerEmail.toLowerCase()
+  ) {
+    notFound();
+  }
 
   const STATUS_INFO: Record<string, { label: string; tone: string; description: string }> = {
     PENDING: {
