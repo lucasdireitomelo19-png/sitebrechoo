@@ -1,20 +1,69 @@
+import { Suspense } from "react";
 import Link from "next/link";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
 import { Hero } from "@/components/Hero";
 import { CategoryTiles } from "@/components/CategoryTiles";
 import { Reveal } from "@/components/Reveal";
+import { Filters } from "@/components/Filters";
 
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: Promise<{ categoria?: string; q?: string }>;
+  searchParams: Promise<{
+    categoria?: string;
+    q?: string;
+    tamanho?: string;
+    condicao?: string;
+    marca?: string;
+    precoMin?: string;
+    precoMax?: string;
+  }>;
 }) {
-  const { categoria, q } = await searchParams;
+  const { categoria, q, tamanho, condicao, marca, precoMin, precoMax } = await searchParams;
   const query = q?.trim();
   const showDiscovery = !categoria && !query;
 
-  const [categories, categoryTiles, products] = await Promise.all([
+  const VALID_CONDITIONS = ["NEW", "LIKE_NEW", "GOOD", "FAIR"] as const;
+  const sizes = tamanho ? tamanho.split(",").filter(Boolean) : [];
+  const conditions = condicao
+    ? condicao
+        .split(",")
+        .filter((c): c is (typeof VALID_CONDITIONS)[number] =>
+          (VALID_CONDITIONS as readonly string[]).includes(c)
+        )
+    : [];
+  const brands = marca ? marca.split(",").filter(Boolean) : [];
+  const minCents = precoMin ? Math.round(Number(precoMin) * 100) : undefined;
+  const maxCents = precoMax ? Math.round(Number(precoMax) * 100) : undefined;
+
+  const productWhere: Prisma.ProductWhereInput = {
+    status: "PUBLISHED",
+    ...(categoria ? { category: { slug: categoria } } : {}),
+    ...(query
+      ? {
+          OR: [
+            { title: { contains: query, mode: "insensitive" } },
+            { brand: { contains: query, mode: "insensitive" } },
+            { description: { contains: query, mode: "insensitive" } },
+          ],
+        }
+      : {}),
+    ...(sizes.length > 0 ? { size: { in: sizes } } : {}),
+    ...(conditions.length > 0 ? { condition: { in: conditions } } : {}),
+    ...(brands.length > 0 ? { brand: { in: brands } } : {}),
+    ...(minCents !== undefined || maxCents !== undefined
+      ? {
+          priceCents: {
+            ...(minCents !== undefined ? { gte: minCents } : {}),
+            ...(maxCents !== undefined ? { lte: maxCents } : {}),
+          },
+        }
+      : {}),
+  };
+
+  const [categories, categoryTiles, products, availableSizes, availableBrands] = await Promise.all([
     prisma.category.findMany({ orderBy: { name: "asc" } }),
     showDiscovery
       ? prisma.category.findMany({
@@ -30,21 +79,21 @@ export default async function HomePage({
         })
       : Promise.resolve([]),
     prisma.product.findMany({
-      where: {
-        status: "PUBLISHED",
-        ...(categoria ? { category: { slug: categoria } } : {}),
-        ...(query
-          ? {
-              OR: [
-                { title: { contains: query, mode: "insensitive" } },
-                { brand: { contains: query, mode: "insensitive" } },
-                { description: { contains: query, mode: "insensitive" } },
-              ],
-            }
-          : {}),
-      },
+      where: productWhere,
       include: { images: { orderBy: { position: "asc" }, take: 1 } },
       orderBy: { createdAt: "desc" },
+    }),
+    prisma.product.findMany({
+      where: { status: "PUBLISHED", size: { not: null } },
+      select: { size: true },
+      distinct: ["size"],
+      orderBy: { size: "asc" },
+    }),
+    prisma.product.findMany({
+      where: { status: "PUBLISHED", brand: { not: null } },
+      select: { brand: true },
+      distinct: ["brand"],
+      orderBy: { brand: "asc" },
     }),
   ]);
 
@@ -86,7 +135,7 @@ export default async function HomePage({
           </p>
         </div>
 
-        <div className="mb-6 flex flex-wrap gap-2">
+        <div className="mb-6 flex flex-wrap items-center gap-2">
           <Link
             href="/"
             className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
@@ -110,6 +159,13 @@ export default async function HomePage({
               {c.name}
             </Link>
           ))}
+
+          <Suspense fallback={null}>
+            <Filters
+              sizes={availableSizes.map((s) => s.size).filter((s): s is string => Boolean(s))}
+              brands={availableBrands.map((b) => b.brand).filter((b): b is string => Boolean(b))}
+            />
+          </Suspense>
         </div>
 
         {products.length === 0 ? (
