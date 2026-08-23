@@ -4,14 +4,14 @@
   --background: #ffffff;
   --foreground: #1c1917;
 
-  /* Paleta da marca: creme quente + verde salvia (do logo real) */
-  --color-cream: #faf6ef;
-  --color-cream-dark: #f0e6d6;
+  /* Paleta da marca: creme quente + verde salvia/floresta (extraída da arte real) */
+  --color-cream: #eae0cc;
+  --color-cream-dark: #ddcdad;
   --color-espresso: #2a2019;
   --color-espresso-soft: #6b5d50;
-  --color-sage: #7c8b5e;
-  --color-sage-dark: #56603f;
-  --color-line: #e6dac6;
+  --color-sage: #82875f;
+  --color-sage-dark: #313d1f;
+  --color-line: #d0ba8e;
 }
 
 @theme inline {
