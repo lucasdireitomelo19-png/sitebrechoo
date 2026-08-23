@@ -1,7 +1,9 @@
+import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { PageTransition } from "@/components/PageTransition";
 
 // Este layout consulta o banco (categorias) para montar o menu e o rodapé.
 // Sem isso, o Next.js tenta pré-gerar as páginas estáticas (carrinho,
@@ -16,10 +18,14 @@ export default async function StoreLayout({ children }: { children: React.ReactN
   });
 
   return (
-    <div className="flex min-h-screen flex-col bg-cream">
+    <div className="flex min-h-screen flex-col">
       <AnnouncementBar message="Peças novas toda semana ✨ Confira as novidades" />
       <Header categories={categories} />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1">
+        <Suspense fallback={children}>
+          <PageTransition>{children}</PageTransition>
+        </Suspense>
+      </main>
       <Footer categories={categories} />
     </div>
   );

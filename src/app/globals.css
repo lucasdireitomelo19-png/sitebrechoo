@@ -12,6 +12,8 @@
   --color-sage: #82875f;
   --color-sage-dark: #313d1f;
   --color-line: #d0ba8e;
+  /* Ponto final do degradê de fundo: creme-escuro mesclado com o verde escuro */
+  --color-gradient-end: #989374;
 }
 
 @theme inline {
@@ -31,8 +33,35 @@
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(
+      180deg,
+      var(--color-cream) 0%,
+      var(--color-cream-dark) 55%,
+      var(--color-gradient-end) 100%
+    )
+    fixed;
   color: var(--foreground);
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition {
+  animation: page-in 0.4s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    animation: none;
+  }
 }
 
 @layer components {

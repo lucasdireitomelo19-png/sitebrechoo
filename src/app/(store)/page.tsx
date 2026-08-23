@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
 import { Hero } from "@/components/Hero";
 import { CategoryTiles } from "@/components/CategoryTiles";
+import { Reveal } from "@/components/Reveal";
 
 export default async function HomePage({
   searchParams,
@@ -53,13 +54,15 @@ export default async function HomePage({
         <>
           <Hero />
           <div className="mx-auto max-w-6xl px-4 pt-10 sm:px-6">
-            <CategoryTiles
-              categories={categoryTiles.map((c) => ({
-                name: c.name,
-                slug: c.slug,
-                imageUrl: c.products[0]?.images[0]?.url ?? null,
-              }))}
-            />
+            <Reveal>
+              <CategoryTiles
+                categories={categoryTiles.map((c) => ({
+                  name: c.name,
+                  slug: c.slug,
+                  imageUrl: c.products[0]?.images[0]?.url ?? null,
+                }))}
+              />
+            </Reveal>
           </div>
         </>
       )}
@@ -117,19 +120,20 @@ export default async function HomePage({
           </p>
         ) : (
           <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
-            {products.map((p) => (
-              <ProductCard
-                key={p.id}
-                product={{
-                  slug: p.slug,
-                  title: p.title,
-                  priceCents: p.priceCents,
-                  size: p.size,
-                  brand: p.brand,
-                  condition: p.condition,
-                  imageUrl: p.images[0]?.url ?? null,
-                }}
-              />
+            {products.map((p, i) => (
+              <Reveal key={p.id} delay={(i % 8) * 60}>
+                <ProductCard
+                  product={{
+                    slug: p.slug,
+                    title: p.title,
+                    priceCents: p.priceCents,
+                    size: p.size,
+                    brand: p.brand,
+                    condition: p.condition,
+                    imageUrl: p.images[0]?.url ?? null,
+                  }}
+                />
+              </Reveal>
             ))}
           </div>
         )}
