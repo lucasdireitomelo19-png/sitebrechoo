@@ -6,7 +6,8 @@ import { auth } from "@/lib/auth";
 
 async function requireAdmin() {
   const session = await auth();
-  if (!session?.user) {
+  const userType = (session?.user as { userType?: string } | undefined)?.userType;
+  if (!session?.user || userType !== "admin") {
     throw new Error("Não autorizado.");
   }
 }

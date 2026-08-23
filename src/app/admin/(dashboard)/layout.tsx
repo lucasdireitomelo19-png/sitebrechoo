@@ -20,7 +20,8 @@ export default async function AdminDashboardLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  if (!session?.user) {
+  const userType = (session?.user as { userType?: string } | undefined)?.userType;
+  if (!session?.user || userType !== "admin") {
     redirect("/admin/login");
   }
 
