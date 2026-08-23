@@ -60,8 +60,8 @@ export default function CheckoutPage() {
       });
       const data = await res.json();
 
-      if (!res.ok || !data.paymentLink) {
-        setError(data.error ?? "Não foi possível iniciar o pagamento.");
+      if (!res.ok) {
+        setError(data.error ?? "Não foi possível registrar seu pedido.");
         setLoading(false);
         if (data.orderId) {
           router.push(`/pedido/${data.orderId}`);
@@ -70,7 +70,13 @@ export default function CheckoutPage() {
       }
 
       useCartStore.getState().clear();
-      window.location.href = data.paymentLink;
+
+      if (data.paymentLink) {
+        window.location.href = data.paymentLink;
+        return;
+      }
+
+      router.push(`/pedido/${data.orderId}`);
     } catch {
       setError("Erro de conexão. Tente novamente.");
       setLoading(false);

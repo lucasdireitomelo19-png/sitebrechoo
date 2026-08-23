@@ -7,7 +7,7 @@ const STATUS_INFO: Record<string, { label: string; tone: string; description: st
   PENDING: {
     label: "Aguardando pagamento",
     tone: "bg-amber-50 text-amber-700",
-    description: "Assim que o pagamento for confirmado pelo PagBank, você receberá um e-mail.",
+    description: "Recebemos seu pedido. Em breve entraremos em contato para combinar o pagamento.",
   },
   PAID: {
     label: "Pagamento confirmado",

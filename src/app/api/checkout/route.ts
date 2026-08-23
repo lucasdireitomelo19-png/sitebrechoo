@@ -78,6 +78,19 @@ export async function POST(request: Request) {
   const phoneDigits = onlyDigits(customer.phone);
   const taxIdDigits = onlyDigits(customer.taxId);
 
+  if (!process.env.PAGBANK_TOKEN) {
+    // Pagamento online ainda não configurado: o pedido fica registrado como
+    // pendente e o cliente é avisado, em vez de ver um erro genérico.
+    return NextResponse.json(
+      {
+        orderId: order.id,
+        error:
+          "Pagamento online ainda não está disponível. Recebemos seu pedido e entraremos em contato para combinar o pagamento.",
+      },
+      { status: 200 }
+    );
+  }
+
   try {
     const checkout = await createPagBankCheckout({
       referenceId: order.id,
