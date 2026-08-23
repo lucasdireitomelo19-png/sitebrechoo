@@ -41,7 +41,7 @@ export function Header({
 
         <Link
           href="/"
-          className="font-extrabold text-xl tracking-tight text-espresso sm:text-2xl"
+          className="font-extrabold text-xl tracking-tight text-sage-dark sm:text-2xl"
         >
           Carcamana&apos;s
         </Link>
@@ -51,7 +51,7 @@ export function Header({
             <Link
               key={c.slug}
               href={`/?categoria=${c.slug}`}
-              className="text-sm font-medium text-espresso-soft transition hover:text-sage"
+              className="text-sm font-medium text-sage-dark transition hover:text-sage"
             >
               {c.name}
             </Link>
