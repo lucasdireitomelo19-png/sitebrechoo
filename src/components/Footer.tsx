@@ -10,7 +10,7 @@ export function Footer({ categories }: { categories: MenuCategory[] }) {
 
   return (
     <footer className="mt-20 bg-sage-dark text-cream/70">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-4 sm:px-6">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-5 sm:px-6">
         <div className="sm:col-span-1">
           <p className="font-extrabold text-2xl text-cream">Carcamana&apos;s</p>
           <p className="mt-3 text-sm leading-relaxed">
@@ -44,6 +44,24 @@ export function Footer({ categories }: { categories: MenuCategory[] }) {
             Cada peça é única e vendida por unidade. Escolha, adicione ao carrinho e finalize a
             compra — você recebe atualizações do pedido diretamente na página de status.
           </p>
+        </div>
+
+        <div>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-cream">
+            Institucional
+          </p>
+          <ul className="space-y-2 text-sm">
+            <li>
+              <Link href="/institucional" className="transition hover:text-cream">
+                Sobre nós
+              </Link>
+            </li>
+            <li>
+              <Link href="/politica-de-troca" className="transition hover:text-cream">
+                Política de troca
+              </Link>
+            </li>
+          </ul>
         </div>
 
         {hasContact && (
