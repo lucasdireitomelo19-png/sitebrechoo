@@ -12,6 +12,7 @@ export type ProductCardData = {
   slug: string;
   title: string;
   priceCents: number;
+  compareAtPriceCents?: number | null;
   size: string | null;
   brand: string | null;
   condition: string;
@@ -19,6 +20,11 @@ export type ProductCardData = {
 };
 
 export function ProductCard({ product }: { product: ProductCardData }) {
+  const onSale = !!product.compareAtPriceCents && product.compareAtPriceCents > product.priceCents;
+  const discountPct = onSale
+    ? Math.round((1 - product.priceCents / product.compareAtPriceCents!) * 100)
+    : 0;
+
   return (
     <Link href={`/produto/${product.slug}`} className="group block">
       <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-cream-dark shadow-sm transition-shadow duration-300 group-hover:shadow-md">
@@ -37,6 +43,11 @@ export function ProductCard({ product }: { product: ProductCardData }) {
         <span className="absolute left-2 top-2 rounded-full bg-cream/90 px-2 py-0.5 text-[11px] font-medium text-espresso shadow-sm">
           {CONDITION_LABEL[product.condition] ?? product.condition}
         </span>
+        {onSale && (
+          <span className="absolute right-2 top-2 rounded-full bg-espresso px-2 py-0.5 text-[11px] font-semibold text-cream shadow-sm">
+            -{discountPct}%
+          </span>
+        )}
       </div>
       <div className="pt-3">
         {product.brand && (
@@ -49,8 +60,15 @@ export function ProductCard({ product }: { product: ProductCardData }) {
         </p>
         <div className="mt-1 flex items-center justify-between">
           {product.size && <p className="text-xs text-espresso">Tam. {product.size}</p>}
-          <p className="text-sm font-semibold text-espresso">
-            {formatCentsToBRL(product.priceCents)}
+          <p className="flex items-baseline gap-1.5">
+            {onSale && (
+              <span className="text-xs text-espresso-soft line-through">
+                {formatCentsToBRL(product.compareAtPriceCents!)}
+              </span>
+            )}
+            <span className="text-sm font-semibold text-espresso">
+              {formatCentsToBRL(product.priceCents)}
+            </span>
           </p>
         </div>
       </div>

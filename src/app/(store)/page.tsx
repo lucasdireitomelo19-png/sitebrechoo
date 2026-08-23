@@ -14,6 +14,7 @@ export default async function HomePage({
   searchParams: Promise<{
     categoria?: string;
     q?: string;
+    sale?: string;
     tamanho?: string;
     condicao?: string;
     marca?: string;
@@ -21,9 +22,10 @@ export default async function HomePage({
     precoMax?: string;
   }>;
 }) {
-  const { categoria, q, tamanho, condicao, marca, precoMin, precoMax } = await searchParams;
+  const { categoria, q, sale, tamanho, condicao, marca, precoMin, precoMax } = await searchParams;
   const query = q?.trim();
-  const showDiscovery = !categoria && !query;
+  const onSale = sale === "1";
+  const showDiscovery = !categoria && !query && !onSale;
 
   const VALID_CONDITIONS = ["NEW", "LIKE_NEW", "GOOD", "FAIR"] as const;
   const sizes = tamanho ? tamanho.split(",").filter(Boolean) : [];
@@ -41,6 +43,7 @@ export default async function HomePage({
   const productWhere: Prisma.ProductWhereInput = {
     status: "PUBLISHED",
     ...(categoria ? { category: { slug: categoria } } : {}),
+    ...(onSale ? { compareAtPriceCents: { not: null } } : {}),
     ...(query
       ? {
           OR: [
@@ -119,7 +122,11 @@ export default async function HomePage({
       <div id="catalogo" className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <div className="mb-8">
           <h2 className="font-extrabold text-2xl text-espresso sm:text-3xl">
-            {query ? `Resultados para "${query}"` : "Peças selecionadas"}
+            {query
+              ? `Resultados para "${query}"`
+              : onSale
+                ? "Peças em promoção"
+                : "Peças selecionadas"}
           </h2>
           <p className="mt-1 text-sm text-espresso">
             {query ? (
@@ -139,12 +146,22 @@ export default async function HomePage({
           <Link
             href="/"
             className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
-              !categoria
+              !categoria && !onSale
                 ? "bg-espresso text-cream"
                 : "bg-cream-dark text-espresso-soft hover:bg-cream-dark/70"
             }`}
           >
             Todas
+          </Link>
+          <Link
+            href="/?sale=1"
+            className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
+              onSale
+                ? "bg-espresso text-cream"
+                : "bg-cream-dark text-espresso-soft hover:bg-cream-dark/70"
+            }`}
+          >
+            Sale
           </Link>
           {categories.map((c) => (
             <Link
@@ -172,7 +189,9 @@ export default async function HomePage({
           <p className="py-16 text-center text-sm text-espresso">
             {query
               ? "Nenhuma peça encontrada para essa busca."
-              : "Nenhuma peça disponível nessa categoria no momento."}
+              : onSale
+                ? "Nenhuma peça em promoção no momento."
+                : "Nenhuma peça disponível nessa categoria no momento."}
           </p>
         ) : (
           <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
@@ -183,6 +202,7 @@ export default async function HomePage({
                     slug: p.slug,
                     title: p.title,
                     priceCents: p.priceCents,
+                    compareAtPriceCents: p.compareAtPriceCents,
                     size: p.size,
                     brand: p.brand,
                     condition: p.condition,

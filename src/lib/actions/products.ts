@@ -53,6 +53,8 @@ export async function createProduct(formData: FormData) {
   const title = String(formData.get("title") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
   const priceCents = parsePriceToCents(String(formData.get("price") ?? "0"));
+  const compareAtPriceRaw = String(formData.get("compareAtPrice") ?? "").trim();
+  const compareAtPriceCents = compareAtPriceRaw ? parsePriceToCents(compareAtPriceRaw) : 0;
   const size = String(formData.get("size") ?? "").trim() || null;
   const brand = String(formData.get("brand") ?? "").trim() || null;
   const condition = String(formData.get("condition") ?? "GOOD") as ProductCondition;
@@ -79,6 +81,7 @@ export async function createProduct(formData: FormData) {
       title,
       description,
       priceCents,
+      compareAtPriceCents: compareAtPriceCents > priceCents ? compareAtPriceCents : null,
       size,
       brand,
       condition,
@@ -104,6 +107,8 @@ export async function updateProduct(id: string, formData: FormData) {
   const title = String(formData.get("title") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
   const priceCents = parsePriceToCents(String(formData.get("price") ?? "0"));
+  const compareAtPriceRaw = String(formData.get("compareAtPrice") ?? "").trim();
+  const compareAtPriceCents = compareAtPriceRaw ? parsePriceToCents(compareAtPriceRaw) : 0;
   const size = String(formData.get("size") ?? "").trim() || null;
   const brand = String(formData.get("brand") ?? "").trim() || null;
   const condition = String(formData.get("condition") ?? "GOOD") as ProductCondition;
@@ -138,6 +143,7 @@ export async function updateProduct(id: string, formData: FormData) {
       title,
       description,
       priceCents,
+      compareAtPriceCents: compareAtPriceCents > priceCents ? compareAtPriceCents : null,
       size,
       brand,
       condition,

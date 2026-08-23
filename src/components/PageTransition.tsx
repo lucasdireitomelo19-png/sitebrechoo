@@ -6,7 +6,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 // filter, search). Refinement params like Filters shouldn't remount the
 // page — that would wipe transient UI state (e.g. the filter panel being
 // open) on every click.
-const TRANSITION_PARAMS = ["categoria", "q"];
+const TRANSITION_PARAMS = ["categoria", "q", "sale"];
 
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

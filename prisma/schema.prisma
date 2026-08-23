@@ -56,6 +56,7 @@ model Product {
   title       String
   description String
   priceCents  Int
+  compareAtPriceCents Int?
   size        String?
   brand       String?
   condition   ProductCondition  @default(GOOD)

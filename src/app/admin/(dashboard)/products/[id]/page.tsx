@@ -33,6 +33,7 @@ export default async function EditProductPage({
           title: product.title,
           description: product.description,
           priceCents: product.priceCents,
+          compareAtPriceCents: product.compareAtPriceCents,
           size: product.size,
           brand: product.brand,
           condition: product.condition,

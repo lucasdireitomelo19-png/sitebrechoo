@@ -4,6 +4,7 @@ type ProductDefaults = {
   title: string;
   description: string;
   priceCents: number;
+  compareAtPriceCents: number | null;
   size: string | null;
   brand: string | null;
   condition: string;
@@ -25,6 +26,9 @@ export function ProductForm({
   submitLabel: string;
 }) {
   const priceReais = product ? (product.priceCents / 100).toFixed(2) : "";
+  const compareAtPriceReais = product?.compareAtPriceCents
+    ? (product.compareAtPriceCents / 100).toFixed(2)
+    : "";
 
   return (
     <form action={action} className="max-w-2xl space-y-6">
@@ -54,6 +58,21 @@ export function ProductForm({
             min="0"
             defaultValue={priceReais}
             required
+            className="input"
+          />
+        </div>
+
+        <div>
+          <label className="mb-1 block text-sm font-medium text-espresso">
+            Preço original (opcional, pra promoção)
+          </label>
+          <input
+            name="compareAtPrice"
+            type="number"
+            step="0.01"
+            min="0"
+            defaultValue={compareAtPriceReais}
+            placeholder="Deixe em branco se não estiver em promoção"
             className="input"
           />
         </div>

@@ -28,6 +28,10 @@ export default async function ProductPage({
 
   const mainImage = product.images[0]?.url ?? null;
   const available = product.status === "PUBLISHED" && product.stock > 0;
+  const onSale = !!product.compareAtPriceCents && product.compareAtPriceCents > product.priceCents;
+  const discountPct = onSale
+    ? Math.round((1 - product.priceCents / product.compareAtPriceCents!) * 100)
+    : 0;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
@@ -66,8 +70,20 @@ export default async function ProductPage({
               </p>
             )}
             <h1 className="mt-1 font-extrabold text-3xl text-espresso">{product.title}</h1>
-            <p className="mt-3 text-2xl font-semibold text-espresso">
-              {formatCentsToBRL(product.priceCents)}
+            <p className="mt-3 flex items-baseline gap-2">
+              {onSale && (
+                <span className="text-base text-espresso-soft line-through">
+                  {formatCentsToBRL(product.compareAtPriceCents!)}
+                </span>
+              )}
+              <span className="text-2xl font-semibold text-espresso">
+                {formatCentsToBRL(product.priceCents)}
+              </span>
+              {onSale && (
+                <span className="rounded-full bg-espresso px-2 py-0.5 text-xs font-semibold text-cream">
+                  -{discountPct}%
+                </span>
+              )}
             </p>
 
             <dl className="mt-5 space-y-1.5 text-sm text-espresso-soft">
