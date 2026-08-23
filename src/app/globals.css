@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #1c1917;
+
+  /* Paleta da marca: creme quente + verde salvia/floresta (extraída da arte real) */
+  --color-cream: #eae0cc;
+  --color-cream-dark: #ddcdad;
+  --color-espresso: #2a2019;
+  --color-espresso-soft: #6b5d50;
+  --color-sage: #82875f;
+  --color-sage-dark: #313d1f;
+  --color-line: #d0ba8e;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-poppins);
+  --font-mono: var(--font-geist-mono);
+
+  --color-cream: var(--color-cream);
+  --color-cream-dark: var(--color-cream-dark);
+  --color-espresso: var(--color-espresso);
+  --color-espresso-soft: var(--color-espresso-soft);
+  --color-sage: var(--color-sage);
+  --color-sage-dark: var(--color-sage-dark);
+  --color-line: var(--color-line);
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--foreground);
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition {
+  animation: page-in 0.4s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    animation: none;
+  }
+}
+
+@layer components {
+  .input {
+    @apply w-full rounded-md border border-line bg-white px-3 py-2 text-sm text-espresso transition placeholder:text-espresso-soft/60 focus:border-sage focus:outline-none;
+  }
+
+  .store-input {
+    @apply w-full rounded-md border border-line bg-cream px-3 py-2 text-sm text-espresso transition placeholder:text-espresso-soft/60 focus:border-sage focus:outline-none;
+  }
+}
