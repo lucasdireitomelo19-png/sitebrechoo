@@ -20,6 +20,14 @@ model User {
   createdAt DateTime @default(now())
 }
 
+model Customer {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
 enum ProductStatus {
   DRAFT
   PUBLISHED

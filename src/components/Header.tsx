@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCartStore, cartItemCount } from "@/store/cart";
-import { SearchIcon, BagIcon } from "@/components/icons";
+import { SearchIcon, BagIcon, UserIcon } from "@/components/icons";
 import { MobileMenu, type MenuCategory } from "@/components/MobileMenu";
 
 export function Header({ categories }: { categories: MenuCategory[] }) {
@@ -43,18 +43,24 @@ export function Header({ categories }: { categories: MenuCategory[] }) {
           />
         </form>
 
-        <Link
-          href="/carrinho"
-          aria-label="Carrinho"
-          className="relative ml-auto text-espresso transition hover:text-sage sm:ml-0"
-        >
-          <BagIcon className="h-6 w-6" />
-          {count > 0 && (
-            <span className="absolute -right-2 -top-2 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-sage px-1 text-[10px] font-semibold text-cream">
-              {count}
-            </span>
-          )}
-        </Link>
+        <div className="ml-auto flex items-center gap-4 sm:ml-0">
+          <Link
+            href="/minha-conta"
+            aria-label="Minha conta"
+            className="text-espresso transition hover:text-sage"
+          >
+            <UserIcon className="h-6 w-6" />
+          </Link>
+
+          <Link href="/carrinho" aria-label="Carrinho" className="relative text-espresso transition hover:text-sage">
+            <BagIcon className="h-6 w-6" />
+            {count > 0 && (
+              <span className="absolute -right-2 -top-2 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-sage px-1 text-[10px] font-semibold text-cream">
+                {count}
+              </span>
+            )}
+          </Link>
+        </div>
       </div>
     </header>
   );

@@ -14,7 +14,7 @@ async function loginAction(formData: FormData) {
   const callbackUrl = String(formData.get("callbackUrl") ?? "/admin");
 
   try {
-    await signIn("credentials", {
+    await signIn("admin", {
       email,
       password,
       redirectTo: callbackUrl,

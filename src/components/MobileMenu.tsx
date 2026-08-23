@@ -56,6 +56,14 @@ export function MobileMenu({ categories }: { categories: MenuCategory[] }) {
                     <ChevronRightIcon className="h-4 w-4 text-espresso-soft" />
                   </Link>
                 ))}
+                <Link
+                  href="/minha-conta"
+                  onClick={() => setOpen(false)}
+                  className="mt-2 flex items-center justify-between border-t border-line px-4 py-3 text-sm font-medium text-espresso transition hover:bg-cream-dark/60"
+                >
+                  Minha conta
+                  <ChevronRightIcon className="h-4 w-4 text-espresso-soft" />
+                </Link>
               </nav>
             </div>
           </div>,
