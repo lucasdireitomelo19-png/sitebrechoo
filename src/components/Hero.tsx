@@ -4,7 +4,7 @@ export function Hero() {
   return (
     <section className="border-b border-line bg-cream-dark/50">
       <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6 sm:py-24">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-rust">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sage">
           Moda circular
         </p>
         <h1 className="mx-auto mt-3 max-w-2xl font-serif text-4xl italic leading-tight text-espresso sm:text-5xl">
@@ -15,7 +15,7 @@ export function Hero() {
         </p>
         <Link
           href="#catalogo"
-          className="mt-7 inline-block rounded-full bg-espresso px-6 py-3 text-sm font-medium text-cream transition hover:bg-rust"
+          className="mt-7 inline-block rounded-full bg-espresso px-6 py-3 text-sm font-medium text-cream transition hover:bg-sage"
         >
           Ver peças disponíveis
         </Link>

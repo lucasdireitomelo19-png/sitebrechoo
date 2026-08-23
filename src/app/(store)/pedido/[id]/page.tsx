@@ -58,7 +58,7 @@ export default async function OrderStatusPage({
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-14 sm:px-6">
-      <p className="text-xs font-semibold uppercase tracking-wider text-rust">
+      <p className="text-xs font-semibold uppercase tracking-wider text-sage">
         Pedido #{order.id.slice(-8)}
       </p>
       <h1 className="mt-1 font-serif text-3xl italic text-espresso">Obrigado pela compra!</h1>
@@ -95,7 +95,7 @@ export default async function OrderStatusPage({
             <p className="mt-1 text-sm text-espresso-soft">
               {order.shippingCarrier && <>{order.shippingCarrier} · </>}
               {link ? (
-                <a href={link} target="_blank" rel="noopener noreferrer" className="text-rust hover:underline">
+                <a href={link} target="_blank" rel="noopener noreferrer" className="text-sage hover:underline">
                   {order.trackingCode}
                 </a>
               ) : (
@@ -108,7 +108,7 @@ export default async function OrderStatusPage({
             <ul className="mt-4 space-y-4 border-l border-line pl-4">
               {order.trackingEvents.map((event) => (
                 <li key={event.id} className="relative">
-                  <span className="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-rust" />
+                  <span className="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-sage" />
                   <p className="text-sm font-medium text-espresso">{event.status}</p>
                   {event.location && <p className="text-xs text-espresso-soft">{event.location}</p>}
                   <p className="mt-1 text-xs text-espresso-soft/70">

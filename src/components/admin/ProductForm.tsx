@@ -30,12 +30,12 @@ export function ProductForm({
     <form action={action} className="max-w-2xl space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label className="mb-1 block text-sm font-medium text-stone-700">Título</label>
+          <label className="mb-1 block text-sm font-medium text-espresso">Título</label>
           <input name="title" defaultValue={product?.title} required className="input" />
         </div>
 
         <div className="sm:col-span-2">
-          <label className="mb-1 block text-sm font-medium text-stone-700">Descrição</label>
+          <label className="mb-1 block text-sm font-medium text-espresso">Descrição</label>
           <textarea
             name="description"
             defaultValue={product?.description}
@@ -46,7 +46,7 @@ export function ProductForm({
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-stone-700">Preço (R$)</label>
+          <label className="mb-1 block text-sm font-medium text-espresso">Preço (R$)</label>
           <input
             name="price"
             type="number"
@@ -59,7 +59,7 @@ export function ProductForm({
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-stone-700">Estoque</label>
+          <label className="mb-1 block text-sm font-medium text-espresso">Estoque</label>
           <input
             name="stock"
             type="number"
@@ -71,17 +71,17 @@ export function ProductForm({
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-stone-700">Tamanho</label>
+          <label className="mb-1 block text-sm font-medium text-espresso">Tamanho</label>
           <input name="size" defaultValue={product?.size ?? ""} className="input" />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-stone-700">Marca</label>
+          <label className="mb-1 block text-sm font-medium text-espresso">Marca</label>
           <input name="brand" defaultValue={product?.brand ?? ""} className="input" />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-stone-700">Condição</label>
+          <label className="mb-1 block text-sm font-medium text-espresso">Condição</label>
           <select name="condition" defaultValue={product?.condition ?? "GOOD"} className="input">
             <option value="NEW">Novo</option>
             <option value="LIKE_NEW">Seminovo</option>
@@ -91,7 +91,7 @@ export function ProductForm({
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-stone-700">Status</label>
+          <label className="mb-1 block text-sm font-medium text-espresso">Status</label>
           <select name="status" defaultValue={product?.status ?? "PUBLISHED"} className="input">
             <option value="DRAFT">Rascunho</option>
             <option value="PUBLISHED">Publicado</option>
@@ -101,7 +101,7 @@ export function ProductForm({
         </div>
 
         <div className="sm:col-span-2">
-          <label className="mb-1 block text-sm font-medium text-stone-700">Categoria</label>
+          <label className="mb-1 block text-sm font-medium text-espresso">Categoria</label>
           <input
             name="category"
             list="category-options"
@@ -119,13 +119,13 @@ export function ProductForm({
 
       {product && product.images.length > 0 && (
         <div>
-          <p className="mb-2 text-sm font-medium text-stone-700">Fotos atuais</p>
+          <p className="mb-2 text-sm font-medium text-espresso">Fotos atuais</p>
           <div className="flex flex-wrap gap-3">
             {product.images.map((img) => (
               <label key={img.id} className="relative">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={img.url} alt="" className="h-24 w-20 rounded-md object-cover" />
-                <span className="mt-1 flex items-center gap-1 text-xs text-stone-500">
+                <span className="mt-1 flex items-center gap-1 text-xs text-espresso-soft">
                   <input type="checkbox" name="removeImage" value={img.id} /> remover
                 </span>
               </label>
@@ -135,7 +135,7 @@ export function ProductForm({
       )}
 
       <div>
-        <label className="mb-1 block text-sm font-medium text-stone-700">
+        <label className="mb-1 block text-sm font-medium text-espresso">
           {product ? "Adicionar novas fotos" : "Fotos"}
         </label>
         <input
@@ -143,13 +143,13 @@ export function ProductForm({
           name="images"
           accept="image/*"
           multiple
-          className="block w-full text-sm text-stone-600 file:mr-3 file:rounded-md file:border-0 file:bg-stone-900 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white"
+          className="block w-full text-sm text-espresso-soft file:mr-3 file:rounded-md file:border-0 file:bg-espresso file:px-3 file:py-2 file:text-sm file:font-medium file:text-cream"
         />
       </div>
 
       <button
         type="submit"
-        className="rounded-md bg-stone-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-stone-700"
+        className="rounded-md bg-espresso px-5 py-2.5 text-sm font-medium text-cream hover:bg-sage"
       >
         {submitLabel}
       </button>

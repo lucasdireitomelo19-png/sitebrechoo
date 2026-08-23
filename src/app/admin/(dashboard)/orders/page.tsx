@@ -15,8 +15,8 @@ const STATUS_LABEL: Record<string, string> = {
 const STATUS_TONE: Record<string, string> = {
   PENDING: "bg-amber-50 text-amber-700",
   PAID: "bg-green-50 text-green-700",
-  CANCELED: "bg-stone-100 text-stone-500",
-  REFUNDED: "bg-stone-100 text-stone-500",
+  CANCELED: "bg-cream-dark text-espresso-soft",
+  REFUNDED: "bg-cream-dark text-espresso-soft",
   SHIPPED: "bg-blue-50 text-blue-700",
   DELIVERED: "bg-green-50 text-green-700",
 };
@@ -40,13 +40,13 @@ export default async function AdminOrdersPage({
 
   return (
     <div>
-      <h1 className="mb-6 text-xl font-semibold text-stone-900">Pedidos</h1>
+      <h1 className="mb-6 text-xl font-semibold text-espresso">Pedidos</h1>
 
       <div className="mb-4 flex flex-wrap gap-2">
         <Link
           href="/admin/orders"
           className={`rounded-full px-3 py-1.5 text-sm font-medium ${
-            !validStatus ? "bg-stone-900 text-white" : "bg-stone-100 text-stone-600 hover:bg-stone-200"
+            !validStatus ? "bg-espresso text-cream" : "bg-cream-dark text-espresso-soft hover:bg-cream-dark/70"
           }`}
         >
           Todos
@@ -56,7 +56,7 @@ export default async function AdminOrdersPage({
             key={s}
             href={`/admin/orders?status=${s}`}
             className={`rounded-full px-3 py-1.5 text-sm font-medium ${
-              validStatus === s ? "bg-stone-900 text-white" : "bg-stone-100 text-stone-600 hover:bg-stone-200"
+              validStatus === s ? "bg-espresso text-cream" : "bg-cream-dark text-espresso-soft hover:bg-cream-dark/70"
             }`}
           >
             {STATUS_LABEL[s]}
@@ -64,9 +64,9 @@ export default async function AdminOrdersPage({
         ))}
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-stone-200">
+      <div className="overflow-x-auto rounded-lg border border-line">
         <table className="w-full text-left text-sm">
-          <thead className="bg-stone-50 text-xs uppercase text-stone-500">
+          <thead className="bg-cream text-xs uppercase text-espresso-soft">
             <tr>
               <th className="px-4 py-3">Pedido</th>
               <th className="px-4 py-3">Cliente</th>
@@ -76,33 +76,33 @@ export default async function AdminOrdersPage({
               <th className="px-4 py-3">Data</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-stone-100">
+          <tbody className="divide-y divide-line">
             {orders.map((o) => (
               <tr key={o.id}>
                 <td className="px-4 py-3">
-                  <Link href={`/admin/orders/${o.id}`} className="font-medium text-stone-900 hover:underline">
+                  <Link href={`/admin/orders/${o.id}`} className="font-medium text-espresso hover:underline">
                     #{o.id.slice(-8)}
                   </Link>
                 </td>
-                <td className="px-4 py-3 text-stone-700">
+                <td className="px-4 py-3 text-espresso">
                   {o.customerName}
-                  <div className="text-xs text-stone-400">{o.customerEmail}</div>
+                  <div className="text-xs text-espresso-soft">{o.customerEmail}</div>
                 </td>
-                <td className="px-4 py-3 text-stone-500">{o.items.length}</td>
-                <td className="px-4 py-3 text-stone-700">{formatCentsToBRL(o.totalCents)}</td>
+                <td className="px-4 py-3 text-espresso-soft">{o.items.length}</td>
+                <td className="px-4 py-3 text-espresso">{formatCentsToBRL(o.totalCents)}</td>
                 <td className="px-4 py-3">
                   <span className={`rounded-full px-2 py-1 text-xs font-medium ${STATUS_TONE[o.status]}`}>
                     {STATUS_LABEL[o.status]}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-stone-500">
+                <td className="px-4 py-3 text-espresso-soft">
                   {o.createdAt.toLocaleDateString("pt-BR")}
                 </td>
               </tr>
             ))}
             {orders.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-stone-400">
+                <td colSpan={6} className="px-4 py-8 text-center text-espresso-soft">
                   Nenhum pedido encontrado.
                 </td>
               </tr>

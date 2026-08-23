@@ -60,7 +60,7 @@ export default async function ProductPage({
 
         <div>
           {product.category && (
-            <p className="text-xs font-semibold uppercase tracking-wider text-rust">
+            <p className="text-xs font-semibold uppercase tracking-wider text-sage">
               {product.category.name}
             </p>
           )}

@@ -73,7 +73,7 @@ export default async function HomePage({
             {query ? (
               <>
                 {products.length} peça(s) encontrada(s).{" "}
-                <Link href="/" className="underline hover:text-rust">
+                <Link href="/" className="underline hover:text-sage">
                   Limpar busca
                 </Link>
               </>

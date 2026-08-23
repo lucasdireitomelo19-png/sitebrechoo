@@ -7,7 +7,7 @@ export default async function NewProductPage() {
 
   return (
     <div>
-      <h1 className="mb-6 text-xl font-semibold text-stone-900">Novo produto</h1>
+      <h1 className="mb-6 text-xl font-semibold text-espresso">Novo produto</h1>
       <ProductForm
         action={createProduct}
         categories={categories.map((c) => c.name)}

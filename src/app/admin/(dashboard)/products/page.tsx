@@ -12,10 +12,10 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 const STATUS_TONE: Record<string, string> = {
-  DRAFT: "bg-stone-100 text-stone-600",
+  DRAFT: "bg-cream-dark text-espresso-soft",
   PUBLISHED: "bg-green-50 text-green-700",
   SOLD: "bg-blue-50 text-blue-700",
-  ARCHIVED: "bg-stone-100 text-stone-500",
+  ARCHIVED: "bg-cream-dark text-espresso-soft",
 };
 
 export default async function AdminProductsPage() {
@@ -27,18 +27,18 @@ export default async function AdminProductsPage() {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-stone-900">Produtos</h1>
+        <h1 className="text-xl font-semibold text-espresso">Produtos</h1>
         <Link
           href="/admin/products/new"
-          className="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-700"
+          className="rounded-md bg-espresso px-4 py-2 text-sm font-medium text-cream hover:bg-sage"
         >
           + Novo produto
         </Link>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-stone-200">
+      <div className="overflow-x-auto rounded-lg border border-line">
         <table className="w-full text-left text-sm">
-          <thead className="bg-stone-50 text-xs uppercase text-stone-500">
+          <thead className="bg-cream text-xs uppercase text-espresso-soft">
             <tr>
               <th className="px-4 py-3">Produto</th>
               <th className="px-4 py-3">Categoria</th>
@@ -48,23 +48,23 @@ export default async function AdminProductsPage() {
               <th className="px-4 py-3" />
             </tr>
           </thead>
-          <tbody className="divide-y divide-stone-100">
+          <tbody className="divide-y divide-line">
             {products.map((p) => (
               <tr key={p.id}>
                 <td className="flex items-center gap-3 px-4 py-3">
-                  <div className="h-12 w-10 shrink-0 overflow-hidden rounded bg-stone-100">
+                  <div className="h-12 w-10 shrink-0 overflow-hidden rounded bg-cream-dark">
                     {p.images[0] ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={p.images[0].url} alt="" className="h-full w-full object-cover" />
                     ) : null}
                   </div>
-                  <Link href={`/admin/products/${p.id}`} className="font-medium text-stone-900 hover:underline">
+                  <Link href={`/admin/products/${p.id}`} className="font-medium text-espresso hover:underline">
                     {p.title}
                   </Link>
                 </td>
-                <td className="px-4 py-3 text-stone-500">{p.category?.name ?? "—"}</td>
-                <td className="px-4 py-3 text-stone-700">{formatCentsToBRL(p.priceCents)}</td>
-                <td className="px-4 py-3 text-stone-700">{p.stock}</td>
+                <td className="px-4 py-3 text-espresso-soft">{p.category?.name ?? "—"}</td>
+                <td className="px-4 py-3 text-espresso">{formatCentsToBRL(p.priceCents)}</td>
+                <td className="px-4 py-3 text-espresso">{p.stock}</td>
                 <td className="px-4 py-3">
                   <span className={`rounded-full px-2 py-1 text-xs font-medium ${STATUS_TONE[p.status]}`}>
                     {STATUS_LABEL[p.status]}
@@ -72,7 +72,7 @@ export default async function AdminProductsPage() {
                 </td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex justify-end gap-3">
-                    <Link href={`/admin/products/${p.id}`} className="text-stone-500 hover:text-stone-900">
+                    <Link href={`/admin/products/${p.id}`} className="text-espresso-soft hover:text-espresso">
                       Editar
                     </Link>
                     <form action={deleteProduct.bind(null, p.id)}>
@@ -89,7 +89,7 @@ export default async function AdminProductsPage() {
             ))}
             {products.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-stone-400">
+                <td colSpan={6} className="px-4 py-8 text-center text-espresso-soft">
                   Nenhum produto cadastrado ainda.
                 </td>
               </tr>

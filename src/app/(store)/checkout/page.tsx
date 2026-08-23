@@ -20,7 +20,7 @@ export default function CheckoutPage() {
         <p className="text-espresso-soft">Seu carrinho está vazio.</p>
         <Link
           href="/"
-          className="mt-4 inline-block rounded-full bg-espresso px-5 py-2.5 text-sm font-medium text-cream hover:bg-rust"
+          className="mt-4 inline-block rounded-full bg-espresso px-5 py-2.5 text-sm font-medium text-cream hover:bg-sage"
         >
           Ver peças disponíveis
         </Link>
@@ -132,7 +132,7 @@ export default function CheckoutPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-full bg-espresso px-4 py-3 text-sm font-medium text-cream transition hover:bg-rust disabled:opacity-60"
+          className="w-full rounded-full bg-espresso px-4 py-3 text-sm font-medium text-cream transition hover:bg-sage disabled:opacity-60"
         >
           {loading ? "Redirecionando para pagamento..." : "Pagar com PagBank"}
         </button>

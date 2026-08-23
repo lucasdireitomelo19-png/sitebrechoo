@@ -16,7 +16,7 @@ export default function CartPage() {
         <p className="text-espresso-soft">Seu carrinho está vazio.</p>
         <Link
           href="/"
-          className="mt-4 inline-block rounded-full bg-espresso px-5 py-2.5 text-sm font-medium text-cream hover:bg-rust"
+          className="mt-4 inline-block rounded-full bg-espresso px-5 py-2.5 text-sm font-medium text-cream hover:bg-sage"
         >
           Ver peças disponíveis
         </Link>
@@ -40,7 +40,7 @@ export default function CartPage() {
             <div className="min-w-0 flex-1">
               <Link
                 href={`/produto/${item.slug}`}
-                className="truncate text-sm font-medium text-espresso hover:text-rust"
+                className="truncate text-sm font-medium text-espresso hover:text-sage"
               >
                 {item.title}
               </Link>
@@ -59,7 +59,7 @@ export default function CartPage() {
                 </select>
                 <button
                   onClick={() => removeItem(item.productId)}
-                  className="text-sm text-espresso-soft hover:text-rust"
+                  className="text-sm text-espresso-soft hover:text-sage"
                 >
                   Remover
                 </button>
@@ -79,7 +79,7 @@ export default function CartPage() {
 
       <Link
         href="/checkout"
-        className="mt-6 block w-full rounded-full bg-espresso px-4 py-3 text-center text-sm font-medium text-cream transition hover:bg-rust"
+        className="mt-6 block w-full rounded-full bg-espresso px-4 py-3 text-center text-sm font-medium text-cream transition hover:bg-sage"
       >
         Finalizar compra
       </Link>

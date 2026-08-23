@@ -26,7 +26,7 @@ export function Header({ categories }: { categories: MenuCategory[] }) {
             <Link
               key={c.slug}
               href={`/?categoria=${c.slug}`}
-              className="text-sm font-medium text-espresso-soft transition hover:text-rust"
+              className="text-sm font-medium text-espresso-soft transition hover:text-sage"
             >
               {c.name}
             </Link>
@@ -39,18 +39,18 @@ export function Header({ categories }: { categories: MenuCategory[] }) {
             type="search"
             name="q"
             placeholder="Buscar peças"
-            className="w-full rounded-full border border-line bg-cream-dark/60 py-2 pl-9 pr-3 text-sm text-espresso placeholder:text-espresso-soft/70 focus:border-rust focus:outline-none"
+            className="w-full rounded-full border border-line bg-cream-dark/60 py-2 pl-9 pr-3 text-sm text-espresso placeholder:text-espresso-soft/70 focus:border-sage focus:outline-none"
           />
         </form>
 
         <Link
           href="/carrinho"
           aria-label="Carrinho"
-          className="relative ml-auto text-espresso transition hover:text-rust sm:ml-0"
+          className="relative ml-auto text-espresso transition hover:text-sage sm:ml-0"
         >
           <BagIcon className="h-6 w-6" />
           {count > 0 && (
-            <span className="absolute -right-2 -top-2 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-rust px-1 text-[10px] font-semibold text-cream">
+            <span className="absolute -right-2 -top-2 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-sage px-1 text-[10px] font-semibold text-cream">
               {count}
             </span>
           )}

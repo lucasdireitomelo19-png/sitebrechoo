@@ -36,10 +36,10 @@ export default async function AdminLoginPage({
   const callbackUrl = params.callbackUrl ?? "/admin";
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-stone-100 px-4">
-      <div className="w-full max-w-sm rounded-xl border border-stone-200 bg-white p-8 shadow-sm">
-        <h1 className="mb-1 text-xl font-semibold text-stone-900">Área administrativa</h1>
-        <p className="mb-6 text-sm text-stone-500">Entre com suas credenciais de administrador.</p>
+    <div className="flex min-h-screen items-center justify-center bg-cream-dark px-4">
+      <div className="w-full max-w-sm rounded-xl border border-line bg-white p-8 shadow-sm">
+        <h1 className="mb-1 text-xl font-semibold text-espresso">Área administrativa</h1>
+        <p className="mb-6 text-sm text-espresso-soft">Entre com suas credenciais de administrador.</p>
 
         {params.error && (
           <p className="mb-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
@@ -50,7 +50,7 @@ export default async function AdminLoginPage({
         <form action={loginAction} className="space-y-4">
           <input type="hidden" name="callbackUrl" value={callbackUrl} />
           <div>
-            <label htmlFor="email" className="mb-1 block text-sm font-medium text-stone-700">
+            <label htmlFor="email" className="mb-1 block text-sm font-medium text-espresso">
               E-mail
             </label>
             <input
@@ -59,11 +59,11 @@ export default async function AdminLoginPage({
               type="email"
               required
               autoComplete="email"
-              className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm focus:border-stone-500 focus:outline-none"
+              className="w-full rounded-md border border-line px-3 py-2 text-sm focus:border-sage focus:outline-none"
             />
           </div>
           <div>
-            <label htmlFor="password" className="mb-1 block text-sm font-medium text-stone-700">
+            <label htmlFor="password" className="mb-1 block text-sm font-medium text-espresso">
               Senha
             </label>
             <input
@@ -72,12 +72,12 @@ export default async function AdminLoginPage({
               type="password"
               required
               autoComplete="current-password"
-              className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm focus:border-stone-500 focus:outline-none"
+              className="w-full rounded-md border border-line px-3 py-2 text-sm focus:border-sage focus:outline-none"
             />
           </div>
           <button
             type="submit"
-            className="w-full rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-stone-700"
+            className="w-full rounded-md bg-espresso px-4 py-2 text-sm font-medium text-cream transition hover:bg-sage"
           >
             Entrar
           </button>

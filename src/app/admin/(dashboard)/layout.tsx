@@ -25,19 +25,19 @@ export default async function AdminDashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-cream">
       <div className="flex min-h-screen">
-        <aside className="hidden w-56 shrink-0 border-r border-stone-200 bg-white p-4 sm:block">
+        <aside className="hidden w-56 shrink-0 border-r border-line bg-white p-4 sm:block">
           <div className="mb-6 px-2">
-            <p className="text-sm font-semibold text-stone-900">Carcamana&apos;s Admin</p>
-            <p className="truncate text-xs text-stone-500">{session.user.email}</p>
+            <p className="text-sm font-semibold text-espresso">Carcamana&apos;s Admin</p>
+            <p className="truncate text-xs text-espresso-soft">{session.user.email}</p>
           </div>
           <nav className="space-y-1">
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="block rounded-md px-3 py-2 text-sm font-medium text-stone-600 hover:bg-stone-100 hover:text-stone-900"
+                className="block rounded-md px-3 py-2 text-sm font-medium text-espresso-soft hover:bg-cream-dark hover:text-espresso"
               >
                 {item.label}
               </Link>
@@ -46,24 +46,24 @@ export default async function AdminDashboardLayout({
           <form action={signOutAction} className="mt-6 px-2">
             <button
               type="submit"
-              className="text-sm font-medium text-stone-500 hover:text-stone-800"
+              className="text-sm font-medium text-espresso-soft hover:text-espresso"
             >
               Sair
             </button>
           </form>
           <Link
             href="/"
-            className="mt-4 block px-2 text-sm text-stone-400 hover:text-stone-700"
+            className="mt-4 block px-2 text-sm text-espresso-soft hover:text-espresso"
           >
             ← Ver loja
           </Link>
         </aside>
 
         <div className="min-w-0 flex-1">
-          <header className="flex items-center justify-between border-b border-stone-200 bg-white px-4 py-3 sm:hidden">
+          <header className="flex items-center justify-between border-b border-line bg-white px-4 py-3 sm:hidden">
             <p className="text-sm font-semibold">Carcamana&apos;s Admin</p>
             <form action={signOutAction}>
-              <button type="submit" className="text-sm text-stone-500">
+              <button type="submit" className="text-sm text-espresso-soft">
                 Sair
               </button>
             </form>

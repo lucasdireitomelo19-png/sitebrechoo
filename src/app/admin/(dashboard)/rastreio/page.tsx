@@ -48,20 +48,20 @@ export default async function AdminTrackingPage({
 
   return (
     <div>
-      <h1 className="mb-6 text-xl font-semibold text-stone-900">Rastreio</h1>
+      <h1 className="mb-6 text-xl font-semibold text-espresso">Rastreio</h1>
 
       <div className="mb-6 grid grid-cols-3 gap-4">
-        <div className="rounded-lg border border-stone-200 p-4">
-          <p className="text-xs font-medium uppercase text-stone-400">Aguardando envio</p>
-          <p className="mt-1 text-xl font-semibold text-stone-900">{countByStatus.PAID ?? 0}</p>
+        <div className="rounded-lg border border-line p-4">
+          <p className="text-xs font-medium uppercase text-espresso-soft">Aguardando envio</p>
+          <p className="mt-1 text-xl font-semibold text-espresso">{countByStatus.PAID ?? 0}</p>
         </div>
-        <div className="rounded-lg border border-stone-200 p-4">
-          <p className="text-xs font-medium uppercase text-stone-400">Em trânsito</p>
-          <p className="mt-1 text-xl font-semibold text-stone-900">{countByStatus.SHIPPED ?? 0}</p>
+        <div className="rounded-lg border border-line p-4">
+          <p className="text-xs font-medium uppercase text-espresso-soft">Em trânsito</p>
+          <p className="mt-1 text-xl font-semibold text-espresso">{countByStatus.SHIPPED ?? 0}</p>
         </div>
-        <div className="rounded-lg border border-stone-200 p-4">
-          <p className="text-xs font-medium uppercase text-stone-400">Entregues</p>
-          <p className="mt-1 text-xl font-semibold text-stone-900">{countByStatus.DELIVERED ?? 0}</p>
+        <div className="rounded-lg border border-line p-4">
+          <p className="text-xs font-medium uppercase text-espresso-soft">Entregues</p>
+          <p className="mt-1 text-xl font-semibold text-espresso">{countByStatus.DELIVERED ?? 0}</p>
         </div>
       </div>
 
@@ -69,7 +69,7 @@ export default async function AdminTrackingPage({
         <Link
           href="/admin/rastreio"
           className={`rounded-full px-3 py-1.5 text-sm font-medium ${
-            !validStatus ? "bg-stone-900 text-white" : "bg-stone-100 text-stone-600 hover:bg-stone-200"
+            !validStatus ? "bg-espresso text-cream" : "bg-cream-dark text-espresso-soft hover:bg-cream-dark/70"
           }`}
         >
           Todos
@@ -79,7 +79,7 @@ export default async function AdminTrackingPage({
             key={s}
             href={`/admin/rastreio?status=${s}`}
             className={`rounded-full px-3 py-1.5 text-sm font-medium ${
-              validStatus === s ? "bg-stone-900 text-white" : "bg-stone-100 text-stone-600 hover:bg-stone-200"
+              validStatus === s ? "bg-espresso text-cream" : "bg-cream-dark text-espresso-soft hover:bg-cream-dark/70"
             }`}
           >
             {STATUS_LABEL[s]}
@@ -87,9 +87,9 @@ export default async function AdminTrackingPage({
         ))}
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-stone-200">
+      <div className="overflow-x-auto rounded-lg border border-line">
         <table className="w-full text-left text-sm">
-          <thead className="bg-stone-50 text-xs uppercase text-stone-500">
+          <thead className="bg-cream text-xs uppercase text-espresso-soft">
             <tr>
               <th className="px-4 py-3">Pedido</th>
               <th className="px-4 py-3">Cliente</th>
@@ -99,27 +99,27 @@ export default async function AdminTrackingPage({
               <th className="px-4 py-3">Última atualização</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-stone-100">
+          <tbody className="divide-y divide-line">
             {orders.map((o) => {
               const link = trackingUrl(o.shippingCarrier, o.trackingCode);
               const lastEvent = o.trackingEvents[0];
               return (
                 <tr key={o.id}>
                   <td className="px-4 py-3">
-                    <Link href={`/admin/orders/${o.id}`} className="font-medium text-stone-900 hover:underline">
+                    <Link href={`/admin/orders/${o.id}`} className="font-medium text-espresso hover:underline">
                       #{o.id.slice(-8)}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-stone-700">{o.customerName}</td>
-                  <td className="px-4 py-3 text-stone-500">{o.shippingCarrier ?? "—"}</td>
-                  <td className="px-4 py-3 text-stone-500">
+                  <td className="px-4 py-3 text-espresso">{o.customerName}</td>
+                  <td className="px-4 py-3 text-espresso-soft">{o.shippingCarrier ?? "—"}</td>
+                  <td className="px-4 py-3 text-espresso-soft">
                     {o.trackingCode ? (
                       link ? (
                         <a
                           href={link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-stone-700 hover:underline"
+                          className="text-espresso hover:underline"
                         >
                           {o.trackingCode}
                         </a>
@@ -135,7 +135,7 @@ export default async function AdminTrackingPage({
                       {STATUS_LABEL[o.status] ?? o.status}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-stone-500">
+                  <td className="px-4 py-3 text-espresso-soft">
                     {lastEvent
                       ? `${lastEvent.status} · ${lastEvent.occurredAt.toLocaleDateString("pt-BR")}`
                       : "Sem eventos registrados"}
@@ -145,7 +145,7 @@ export default async function AdminTrackingPage({
             })}
             {orders.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-stone-400">
+                <td colSpan={6} className="px-4 py-8 text-center text-espresso-soft">
                   Nenhum pedido nessa situação.
                 </td>
               </tr>

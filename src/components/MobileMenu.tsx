@@ -16,7 +16,7 @@ export function MobileMenu({ categories }: { categories: MenuCategory[] }) {
         type="button"
         aria-label="Abrir menu"
         onClick={() => setOpen(true)}
-        className="text-espresso transition hover:text-rust sm:hidden"
+        className="text-espresso transition hover:text-sage sm:hidden"
       >
         <MenuIcon className="h-6 w-6" />
       </button>

@@ -42,7 +42,7 @@ export function AddToCartButton({
           setAdded(true);
           setTimeout(() => setAdded(false), 1500);
         }}
-        className="flex-1 rounded-full bg-espresso px-4 py-3 text-sm font-medium text-cream transition hover:bg-rust"
+        className="flex-1 rounded-full bg-espresso px-4 py-3 text-sm font-medium text-cream transition hover:bg-sage"
       >
         {added ? "Adicionado ✓" : "Adicionar ao carrinho"}
       </button>

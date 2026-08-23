@@ -60,68 +60,68 @@ export default async function AdminDashboardPage() {
 
   return (
     <div>
-      <h1 className="mb-6 text-xl font-semibold text-stone-900">Painel</h1>
+      <h1 className="mb-6 text-xl font-semibold text-espresso">Painel</h1>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <div className="rounded-lg border border-stone-200 p-4">
-          <p className="text-xs font-medium uppercase text-stone-400">Faturamento</p>
-          <p className="mt-1 text-xl font-semibold text-stone-900">
+        <div className="rounded-lg border border-line p-4">
+          <p className="text-xs font-medium uppercase text-espresso-soft">Faturamento</p>
+          <p className="mt-1 text-xl font-semibold text-espresso">
             {formatCentsToBRL(totalRevenue._sum.totalCents ?? 0)}
           </p>
         </div>
-        <div className="rounded-lg border border-stone-200 p-4">
-          <p className="text-xs font-medium uppercase text-stone-400">Pedidos pendentes</p>
-          <p className="mt-1 text-xl font-semibold text-stone-900">{pendingCount}</p>
+        <div className="rounded-lg border border-line p-4">
+          <p className="text-xs font-medium uppercase text-espresso-soft">Pedidos pendentes</p>
+          <p className="mt-1 text-xl font-semibold text-espresso">{pendingCount}</p>
         </div>
-        <div className="rounded-lg border border-stone-200 p-4">
-          <p className="text-xs font-medium uppercase text-stone-400">Pedidos pagos</p>
-          <p className="mt-1 text-xl font-semibold text-stone-900">{countByStatus.PAID ?? 0}</p>
+        <div className="rounded-lg border border-line p-4">
+          <p className="text-xs font-medium uppercase text-espresso-soft">Pedidos pagos</p>
+          <p className="mt-1 text-xl font-semibold text-espresso">{countByStatus.PAID ?? 0}</p>
         </div>
-        <div className="rounded-lg border border-stone-200 p-4">
-          <p className="text-xs font-medium uppercase text-stone-400">Produtos publicados</p>
-          <p className="mt-1 text-xl font-semibold text-stone-900">{totalProducts}</p>
+        <div className="rounded-lg border border-line p-4">
+          <p className="text-xs font-medium uppercase text-espresso-soft">Produtos publicados</p>
+          <p className="mt-1 text-xl font-semibold text-espresso">{totalProducts}</p>
         </div>
       </div>
 
-      <div className="mt-6 rounded-lg border border-stone-200 p-4">
-        <h2 className="mb-3 text-sm font-semibold text-stone-900">Faturamento (14 dias)</h2>
+      <div className="mt-6 rounded-lg border border-line p-4">
+        <h2 className="mb-3 text-sm font-semibold text-espresso">Faturamento (14 dias)</h2>
         <RevenueChart data={chartData} />
       </div>
 
       <div className="mt-6 grid gap-6 sm:grid-cols-2">
-        <div className="rounded-lg border border-stone-200 p-4">
-          <h2 className="mb-3 text-sm font-semibold text-stone-900">Mais vendidos</h2>
+        <div className="rounded-lg border border-line p-4">
+          <h2 className="mb-3 text-sm font-semibold text-espresso">Mais vendidos</h2>
           {topItems.length === 0 ? (
-            <p className="text-sm text-stone-400">Ainda sem vendas.</p>
+            <p className="text-sm text-espresso-soft">Ainda sem vendas.</p>
           ) : (
             <ul className="space-y-2">
               {topItems.map((item) => (
                 <li key={item.titleSnapshot} className="flex justify-between text-sm">
-                  <span className="text-stone-700">{item.titleSnapshot}</span>
-                  <span className="font-medium text-stone-900">{item._sum.quantity} un.</span>
+                  <span className="text-espresso">{item.titleSnapshot}</span>
+                  <span className="font-medium text-espresso">{item._sum.quantity} un.</span>
                 </li>
               ))}
             </ul>
           )}
         </div>
 
-        <div className="rounded-lg border border-stone-200 p-4">
+        <div className="rounded-lg border border-line p-4">
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-stone-900">Pedidos recentes</h2>
-            <Link href="/admin/orders" className="text-xs text-stone-500 hover:underline">
+            <h2 className="text-sm font-semibold text-espresso">Pedidos recentes</h2>
+            <Link href="/admin/orders" className="text-xs text-espresso-soft hover:underline">
               ver todos
             </Link>
           </div>
           {recentOrders.length === 0 ? (
-            <p className="text-sm text-stone-400">Nenhum pedido ainda.</p>
+            <p className="text-sm text-espresso-soft">Nenhum pedido ainda.</p>
           ) : (
             <ul className="space-y-2">
               {recentOrders.map((o) => (
                 <li key={o.id} className="flex justify-between text-sm">
-                  <Link href={`/admin/orders/${o.id}`} className="text-stone-700 hover:underline">
+                  <Link href={`/admin/orders/${o.id}`} className="text-espresso hover:underline">
                     #{o.id.slice(-8)} · {o.customerName}
                   </Link>
-                  <span className="font-medium text-stone-900">{formatCentsToBRL(o.totalCents)}</span>
+                  <span className="font-medium text-espresso">{formatCentsToBRL(o.totalCents)}</span>
                 </li>
               ))}
             </ul>
