@@ -9,7 +9,7 @@ export function Footer({ categories }: { categories: MenuCategory[] }) {
   const hasContact = email || whatsapp || instagram;
 
   return (
-    <footer className="mt-20 bg-espresso text-cream/70">
+    <footer className="mt-20 bg-sage-dark text-cream/70">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-4 sm:px-6">
         <div className="sm:col-span-1">
           <p className="font-serif text-2xl italic text-cream">Carcamana&apos;s</p>

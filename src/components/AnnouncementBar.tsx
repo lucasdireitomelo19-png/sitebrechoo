@@ -15,7 +15,7 @@ export function AnnouncementBar({ message }: { message: string }) {
   if (dismissed) return null;
 
   return (
-    <div className="relative flex items-center justify-center bg-espresso px-10 py-2 text-center text-xs font-medium tracking-wide text-cream sm:text-sm">
+    <div className="relative flex items-center justify-center bg-sage-dark px-10 py-2 text-center text-xs font-medium tracking-wide text-cream sm:text-sm">
       <span>{message}</span>
       <button
         type="button"
