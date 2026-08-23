@@ -3,6 +3,15 @@
 :root {
   --background: #ffffff;
   --foreground: #1c1917;
+
+  /* Paleta da loja: tons terrosos/quentes em vez de cinza neutro */
+  --color-cream: #faf6ef;
+  --color-cream-dark: #f0e6d6;
+  --color-espresso: #2a2019;
+  --color-espresso-soft: #6b5d50;
+  --color-rust: #b54b2a;
+  --color-rust-dark: #8f3c21;
+  --color-line: #e6dac6;
 }
 
 @theme inline {
@@ -10,6 +19,15 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-fraunces);
+
+  --color-cream: var(--color-cream);
+  --color-cream-dark: var(--color-cream-dark);
+  --color-espresso: var(--color-espresso);
+  --color-espresso-soft: var(--color-espresso-soft);
+  --color-rust: var(--color-rust);
+  --color-rust-dark: var(--color-rust-dark);
+  --color-line: var(--color-line);
 }
 
 body {
@@ -20,5 +38,9 @@ body {
 @layer components {
   .input {
     @apply w-full rounded-md border border-stone-300 px-3 py-2 text-sm placeholder:text-stone-400 focus:border-stone-500 focus:outline-none;
+  }
+
+  .store-input {
+    @apply w-full rounded-md border border-line bg-cream px-3 py-2 text-sm text-espresso placeholder:text-espresso-soft/60 focus:border-rust focus:outline-none;
   }
 }

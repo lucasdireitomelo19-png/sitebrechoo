@@ -27,7 +27,7 @@ export function AddToCartButton({
     return (
       <button
         disabled
-        className="w-full cursor-not-allowed rounded-md bg-stone-200 px-4 py-3 text-sm font-medium text-stone-500"
+        className="w-full cursor-not-allowed rounded-full bg-cream-dark px-4 py-3 text-sm font-medium text-espresso-soft"
       >
         Peça esgotada
       </button>
@@ -42,7 +42,7 @@ export function AddToCartButton({
           setAdded(true);
           setTimeout(() => setAdded(false), 1500);
         }}
-        className="flex-1 rounded-md bg-stone-900 px-4 py-3 text-sm font-medium text-white transition hover:bg-stone-700"
+        className="flex-1 rounded-full bg-espresso px-4 py-3 text-sm font-medium text-cream transition hover:bg-rust"
       >
         {added ? "Adicionado ✓" : "Adicionar ao carrinho"}
       </button>
@@ -51,7 +51,7 @@ export function AddToCartButton({
           addItem({ productId, slug, title, priceCents, image, maxStock }, 1);
           router.push("/carrinho");
         }}
-        className="flex-1 rounded-md border border-stone-300 px-4 py-3 text-sm font-medium text-stone-900 transition hover:bg-stone-50"
+        className="flex-1 rounded-full border border-espresso px-4 py-3 text-sm font-medium text-espresso transition hover:bg-cream-dark"
       >
         Comprar agora
       </button>

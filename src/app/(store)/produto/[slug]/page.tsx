@@ -31,14 +31,14 @@ export default async function ProductPage({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-      <div className="grid gap-8 sm:grid-cols-2">
+      <div className="grid gap-10 sm:grid-cols-2">
         <div className="space-y-3">
-          <div className="aspect-[3/4] w-full overflow-hidden rounded-lg bg-stone-100">
+          <div className="aspect-[4/5] w-full overflow-hidden rounded-lg bg-cream-dark">
             {mainImage ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={mainImage} alt={product.title} className="h-full w-full object-cover" />
             ) : (
-              <div className="flex h-full w-full items-center justify-center text-sm text-stone-400">
+              <div className="flex h-full w-full items-center justify-center text-sm text-espresso-soft">
                 Sem foto
               </div>
             )}
@@ -60,39 +60,39 @@ export default async function ProductPage({
 
         <div>
           {product.category && (
-            <p className="text-xs font-medium uppercase tracking-wide text-stone-400">
+            <p className="text-xs font-semibold uppercase tracking-wider text-rust">
               {product.category.name}
             </p>
           )}
-          <h1 className="mt-1 text-2xl font-semibold text-stone-900">{product.title}</h1>
-          <p className="mt-2 text-2xl font-semibold text-stone-900">
+          <h1 className="mt-1 font-serif text-3xl italic text-espresso">{product.title}</h1>
+          <p className="mt-3 text-2xl font-semibold text-espresso">
             {formatCentsToBRL(product.priceCents)}
           </p>
 
-          <dl className="mt-4 space-y-1 text-sm text-stone-600">
+          <dl className="mt-5 space-y-1.5 text-sm text-espresso-soft">
             {product.brand && (
               <div className="flex gap-2">
-                <dt className="font-medium text-stone-500">Marca:</dt>
+                <dt className="font-medium text-espresso">Marca:</dt>
                 <dd>{product.brand}</dd>
               </div>
             )}
             {product.size && (
               <div className="flex gap-2">
-                <dt className="font-medium text-stone-500">Tamanho:</dt>
+                <dt className="font-medium text-espresso">Tamanho:</dt>
                 <dd>{product.size}</dd>
               </div>
             )}
             <div className="flex gap-2">
-              <dt className="font-medium text-stone-500">Condição:</dt>
+              <dt className="font-medium text-espresso">Condição:</dt>
               <dd>{CONDITION_LABEL[product.condition] ?? product.condition}</dd>
             </div>
           </dl>
 
-          <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-stone-700">
+          <p className="mt-5 whitespace-pre-line text-sm leading-relaxed text-espresso-soft">
             {product.description}
           </p>
 
-          <div className="mt-6">
+          <div className="mt-7">
             <AddToCartButton
               productId={product.id}
               slug={product.slug}

@@ -16,12 +16,12 @@ const STATUS_INFO: Record<string, { label: string; tone: string; description: st
   },
   CANCELED: {
     label: "Cancelado",
-    tone: "bg-stone-100 text-stone-600",
+    tone: "bg-cream-dark text-espresso-soft",
     description: "Este pedido foi cancelado.",
   },
   REFUNDED: {
     label: "Reembolsado",
-    tone: "bg-stone-100 text-stone-600",
+    tone: "bg-cream-dark text-espresso-soft",
     description: "O valor deste pedido foi reembolsado.",
   },
   SHIPPED: {
@@ -52,24 +52,24 @@ export default async function OrderStatusPage({
   const info = STATUS_INFO[order.status] ?? STATUS_INFO.PENDING;
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
-      <p className="text-xs font-medium uppercase tracking-wide text-stone-400">
+    <div className="mx-auto max-w-2xl px-4 py-14 sm:px-6">
+      <p className="text-xs font-semibold uppercase tracking-wider text-rust">
         Pedido #{order.id.slice(-8)}
       </p>
-      <h1 className="mt-1 text-2xl font-semibold text-stone-900">Obrigado pela compra!</h1>
+      <h1 className="mt-1 font-serif text-3xl italic text-espresso">Obrigado pela compra!</h1>
 
       <span className={`mt-4 inline-block rounded-full px-3 py-1 text-sm font-medium ${info.tone}`}>
         {info.label}
       </span>
-      <p className="mt-2 text-sm text-stone-600">{info.description}</p>
+      <p className="mt-2 text-sm text-espresso-soft">{info.description}</p>
 
-      <ul className="mt-6 divide-y divide-stone-200 border-y border-stone-200">
+      <ul className="mt-6 divide-y divide-line border-y border-line">
         {order.items.map((item) => (
           <li key={item.id} className="flex justify-between py-3 text-sm">
-            <span className="text-stone-700">
+            <span className="text-espresso-soft">
               {item.titleSnapshot} × {item.quantity}
             </span>
-            <span className="font-medium text-stone-900">
+            <span className="font-medium text-espresso">
               {formatCentsToBRL(item.priceCentsSnapshot * item.quantity)}
             </span>
           </li>
@@ -77,15 +77,15 @@ export default async function OrderStatusPage({
       </ul>
 
       <div className="mt-4 flex justify-between text-sm">
-        <span className="font-medium text-stone-600">Total</span>
-        <span className="text-lg font-semibold text-stone-900">
+        <span className="font-medium text-espresso-soft">Total</span>
+        <span className="text-lg font-semibold text-espresso">
           {formatCentsToBRL(order.totalCents)}
         </span>
       </div>
 
       <Link
         href="/"
-        className="mt-8 inline-block rounded-md border border-stone-300 px-4 py-2 text-sm font-medium text-stone-900 hover:bg-stone-50"
+        className="mt-8 inline-block rounded-full border border-espresso px-5 py-2.5 text-sm font-medium text-espresso hover:bg-cream-dark"
       >
         Continuar comprando
       </Link>

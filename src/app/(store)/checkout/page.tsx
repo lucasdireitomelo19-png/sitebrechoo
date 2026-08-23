@@ -17,10 +17,10 @@ export default function CheckoutPage() {
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-16 text-center sm:px-6">
-        <p className="text-stone-600">Seu carrinho está vazio.</p>
+        <p className="text-espresso-soft">Seu carrinho está vazio.</p>
         <Link
           href="/"
-          className="mt-4 inline-block rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-700"
+          className="mt-4 inline-block rounded-full bg-espresso px-5 py-2.5 text-sm font-medium text-cream hover:bg-rust"
         >
           Ver peças disponíveis
         </Link>
@@ -84,13 +84,13 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6">
-      <h1 className="mb-6 text-xl font-semibold text-stone-900">Finalizar compra</h1>
+    <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
+      <h1 className="mb-6 font-serif text-2xl italic text-espresso">Finalizar compra</h1>
 
-      <div className="mb-6 rounded-md bg-stone-50 p-4 text-sm text-stone-600">
+      <div className="mb-6 rounded-md bg-cream-dark/60 p-4 text-sm text-espresso-soft">
         <p className="flex justify-between">
           <span>{items.length} peça(s)</span>
-          <span className="font-semibold text-stone-900">{formatCentsToBRL(total)}</span>
+          <span className="font-semibold text-espresso">{formatCentsToBRL(total)}</span>
         </p>
       </div>
 
@@ -100,33 +100,39 @@ export default function CheckoutPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <fieldset className="space-y-3">
-          <legend className="mb-1 text-sm font-semibold text-stone-900">Seus dados</legend>
-          <input name="name" required placeholder="Nome completo" className="input" />
-          <input name="email" type="email" required placeholder="E-mail" className="input" />
+          <legend className="mb-1 text-sm font-semibold text-espresso">Seus dados</legend>
+          <input name="name" required placeholder="Nome completo" className="store-input" />
+          <input name="email" type="email" required placeholder="E-mail" className="store-input" />
           <div className="grid grid-cols-2 gap-3">
-            <input name="phone" required placeholder="Telefone (com DDD)" className="input" />
-            <input name="taxId" required placeholder="CPF" className="input" />
+            <input name="phone" required placeholder="Telefone (com DDD)" className="store-input" />
+            <input name="taxId" required placeholder="CPF" className="store-input" />
           </div>
         </fieldset>
 
         <fieldset className="space-y-3">
-          <legend className="mb-1 text-sm font-semibold text-stone-900">Endereço de entrega</legend>
+          <legend className="mb-1 text-sm font-semibold text-espresso">Endereço de entrega</legend>
           <div className="grid grid-cols-3 gap-3">
-            <input name="street" required placeholder="Rua" className="input col-span-2" />
-            <input name="number" required placeholder="Número" className="input" />
+            <input name="street" required placeholder="Rua" className="store-input col-span-2" />
+            <input name="number" required placeholder="Número" className="store-input" />
           </div>
-          <input name="complement" placeholder="Complemento (opcional)" className="input" />
+          <input name="complement" placeholder="Complemento (opcional)" className="store-input" />
           <div className="grid grid-cols-3 gap-3">
-            <input name="city" required placeholder="Cidade" className="input col-span-2" />
-            <input name="state" required maxLength={2} placeholder="UF" className="input uppercase" />
+            <input name="city" required placeholder="Cidade" className="store-input col-span-2" />
+            <input
+              name="state"
+              required
+              maxLength={2}
+              placeholder="UF"
+              className="store-input uppercase"
+            />
           </div>
-          <input name="zip" required placeholder="CEP" className="input" />
+          <input name="zip" required placeholder="CEP" className="store-input" />
         </fieldset>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-md bg-stone-900 px-4 py-3 text-sm font-medium text-white transition hover:bg-stone-700 disabled:opacity-60"
+          className="w-full rounded-full bg-espresso px-4 py-3 text-sm font-medium text-cream transition hover:bg-rust disabled:opacity-60"
         >
           {loading ? "Redirecionando para pagamento..." : "Pagar com PagBank"}
         </button>

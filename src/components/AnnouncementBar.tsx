@@ -15,7 +15,7 @@ export function AnnouncementBar({ message }: { message: string }) {
   if (dismissed) return null;
 
   return (
-    <div className="relative flex items-center justify-center bg-stone-900 px-10 py-2 text-center text-xs font-medium text-white sm:text-sm">
+    <div className="relative flex items-center justify-center bg-espresso px-10 py-2 text-center text-xs font-medium tracking-wide text-cream sm:text-sm">
       <span>{message}</span>
       <button
         type="button"
@@ -24,7 +24,7 @@ export function AnnouncementBar({ message }: { message: string }) {
           localStorage.setItem(STORAGE_KEY, "1");
           setDismissed(true);
         }}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 hover:text-white"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-cream/60 hover:text-cream"
       >
         ✕
       </button>
