@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { href: "/admin", label: "Painel" },
   { href: "/admin/products", label: "Produtos" },
   { href: "/admin/orders", label: "Pedidos" },
+  { href: "/admin/rastreio", label: "Rastreio" },
 ];
 
 export default async function AdminDashboardLayout({

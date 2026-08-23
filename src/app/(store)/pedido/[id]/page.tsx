@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatCentsToBRL } from "@/lib/money";
+import { trackingUrl } from "@/lib/tracking";
 
 const STATUS_INFO: Record<string, { label: string; tone: string; description: string }> = {
   PENDING: {
@@ -44,12 +45,16 @@ export default async function OrderStatusPage({
   const { id } = await params;
   const order = await prisma.order.findUnique({
     where: { id },
-    include: { items: true },
+    include: {
+      items: true,
+      trackingEvents: { orderBy: { occurredAt: "desc" } },
+    },
   });
 
   if (!order) notFound();
 
   const info = STATUS_INFO[order.status] ?? STATUS_INFO.PENDING;
+  const link = trackingUrl(order.shippingCarrier, order.trackingCode);
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-14 sm:px-6">
@@ -82,6 +87,39 @@ export default async function OrderStatusPage({
           {formatCentsToBRL(order.totalCents)}
         </span>
       </div>
+
+      {(order.trackingCode || order.trackingEvents.length > 0) && (
+        <div className="mt-8 rounded-lg border border-line p-5">
+          <h2 className="text-sm font-semibold text-espresso">Rastreio</h2>
+          {order.trackingCode && (
+            <p className="mt-1 text-sm text-espresso-soft">
+              {order.shippingCarrier && <>{order.shippingCarrier} · </>}
+              {link ? (
+                <a href={link} target="_blank" rel="noopener noreferrer" className="text-rust hover:underline">
+                  {order.trackingCode}
+                </a>
+              ) : (
+                order.trackingCode
+              )}
+            </p>
+          )}
+
+          {order.trackingEvents.length > 0 && (
+            <ul className="mt-4 space-y-4 border-l border-line pl-4">
+              {order.trackingEvents.map((event) => (
+                <li key={event.id} className="relative">
+                  <span className="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-rust" />
+                  <p className="text-sm font-medium text-espresso">{event.status}</p>
+                  {event.location && <p className="text-xs text-espresso-soft">{event.location}</p>}
+                  <p className="mt-1 text-xs text-espresso-soft/70">
+                    {event.occurredAt.toLocaleString("pt-BR")}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
 
       <Link
         href="/"
