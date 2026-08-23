@@ -59,7 +59,7 @@ export default async function AdminDashboardLayout({
           </Link>
         </aside>
 
-        <div className="flex-1">
+        <div className="min-w-0 flex-1">
           <header className="flex items-center justify-between border-b border-stone-200 bg-white px-4 py-3 sm:hidden">
             <p className="text-sm font-semibold">Carcamana&apos;s Admin</p>
             <form action={signOutAction}>
