@@ -20,7 +20,7 @@ export default function CheckoutPage() {
         <p className="text-espresso-soft">Seu carrinho está vazio.</p>
         <Link
           href="/"
-          className="mt-4 inline-block rounded-full bg-espresso px-5 py-2.5 text-sm font-medium text-cream hover:bg-sage"
+          className="mt-4 inline-block rounded-full bg-espresso px-5 py-2.5 text-sm font-medium text-cream transition hover:bg-sage"
         >
           Ver peças disponíveis
         </Link>

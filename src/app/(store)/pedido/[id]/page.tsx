@@ -95,7 +95,7 @@ export default async function OrderStatusPage({
             <p className="mt-1 text-sm text-espresso-soft">
               {order.shippingCarrier && <>{order.shippingCarrier} · </>}
               {link ? (
-                <a href={link} target="_blank" rel="noopener noreferrer" className="text-sage hover:underline">
+                <a href={link} target="_blank" rel="noopener noreferrer" className="text-sage transition hover:underline">
                   {order.trackingCode}
                 </a>
               ) : (
@@ -123,7 +123,7 @@ export default async function OrderStatusPage({
 
       <Link
         href="/"
-        className="mt-8 inline-block rounded-full border border-espresso px-5 py-2.5 text-sm font-medium text-espresso hover:bg-cream-dark"
+        className="mt-8 inline-block rounded-full border border-espresso px-5 py-2.5 text-sm font-medium text-espresso transition hover:bg-cream-dark"
       >
         Continuar comprando
       </Link>

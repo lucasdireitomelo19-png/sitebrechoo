@@ -37,10 +37,10 @@ body {
 
 @layer components {
   .input {
-    @apply w-full rounded-md border border-line bg-white px-3 py-2 text-sm text-espresso placeholder:text-espresso-soft/60 focus:border-sage focus:outline-none;
+    @apply w-full rounded-md border border-line bg-white px-3 py-2 text-sm text-espresso transition placeholder:text-espresso-soft/60 focus:border-sage focus:outline-none;
   }
 
   .store-input {
-    @apply w-full rounded-md border border-line bg-cream px-3 py-2 text-sm text-espresso placeholder:text-espresso-soft/60 focus:border-sage focus:outline-none;
+    @apply w-full rounded-md border border-line bg-cream px-3 py-2 text-sm text-espresso transition placeholder:text-espresso-soft/60 focus:border-sage focus:outline-none;
   }
 }

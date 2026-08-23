@@ -40,7 +40,7 @@ export function MobileMenu({ categories }: { categories: MenuCategory[] }) {
                 <Link
                   href="/"
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-between px-4 py-3 text-sm font-medium text-espresso hover:bg-cream-dark/60"
+                  className="flex items-center justify-between px-4 py-3 text-sm font-medium text-espresso transition hover:bg-cream-dark/60"
                 >
                   Todas as peças
                   <ChevronRightIcon className="h-4 w-4 text-espresso-soft" />
@@ -50,7 +50,7 @@ export function MobileMenu({ categories }: { categories: MenuCategory[] }) {
                     key={c.slug}
                     href={`/?categoria=${c.slug}`}
                     onClick={() => setOpen(false)}
-                    className="flex items-center justify-between px-4 py-3 text-sm font-medium text-espresso hover:bg-cream-dark/60"
+                    className="flex items-center justify-between px-4 py-3 text-sm font-medium text-espresso transition hover:bg-cream-dark/60"
                   >
                     {c.name}
                     <ChevronRightIcon className="h-4 w-4 text-espresso-soft" />

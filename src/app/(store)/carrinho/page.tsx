@@ -16,7 +16,7 @@ export default function CartPage() {
         <p className="text-espresso-soft">Seu carrinho está vazio.</p>
         <Link
           href="/"
-          className="mt-4 inline-block rounded-full bg-espresso px-5 py-2.5 text-sm font-medium text-cream hover:bg-sage"
+          className="mt-4 inline-block rounded-full bg-espresso px-5 py-2.5 text-sm font-medium text-cream transition hover:bg-sage"
         >
           Ver peças disponíveis
         </Link>
@@ -40,7 +40,7 @@ export default function CartPage() {
             <div className="min-w-0 flex-1">
               <Link
                 href={`/produto/${item.slug}`}
-                className="truncate text-sm font-medium text-espresso hover:text-sage"
+                className="truncate text-sm font-medium text-espresso transition hover:text-sage"
               >
                 {item.title}
               </Link>
@@ -49,7 +49,7 @@ export default function CartPage() {
                 <select
                   value={item.quantity}
                   onChange={(e) => setQuantity(item.productId, Number(e.target.value))}
-                  className="rounded-md border border-line bg-cream px-2 py-1 text-sm text-espresso"
+                  className="rounded-md border border-line bg-cream px-2 py-1 text-sm text-espresso transition focus:border-sage focus:outline-none"
                 >
                   {Array.from({ length: item.maxStock }, (_, i) => i + 1).map((n) => (
                     <option key={n} value={n}>
@@ -59,7 +59,7 @@ export default function CartPage() {
                 </select>
                 <button
                   onClick={() => removeItem(item.productId)}
-                  className="text-sm text-espresso-soft hover:text-sage"
+                  className="text-sm text-espresso-soft transition hover:text-sage"
                 >
                   Remover
                 </button>

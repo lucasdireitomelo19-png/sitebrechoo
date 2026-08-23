@@ -21,7 +21,7 @@ export type ProductCardData = {
 export function ProductCard({ product }: { product: ProductCardData }) {
   return (
     <Link href={`/produto/${product.slug}`} className="group block">
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-cream-dark">
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-cream-dark shadow-sm transition-shadow duration-300 group-hover:shadow-md">
         {product.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -44,7 +44,9 @@ export function ProductCard({ product }: { product: ProductCardData }) {
             {product.brand}
           </p>
         )}
-        <p className="mt-0.5 truncate text-sm font-medium text-espresso">{product.title}</p>
+        <p className="mt-0.5 truncate text-sm font-medium text-espresso transition-colors group-hover:text-sage">
+          {product.title}
+        </p>
         <div className="mt-1 flex items-center justify-between">
           {product.size && <p className="text-xs text-espresso-soft">Tam. {product.size}</p>}
           <p className="text-sm font-semibold text-espresso">

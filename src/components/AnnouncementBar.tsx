@@ -24,7 +24,7 @@ export function AnnouncementBar({ message }: { message: string }) {
           localStorage.setItem(STORAGE_KEY, "1");
           setDismissed(true);
         }}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-cream/60 hover:text-cream"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-cream/60 transition hover:text-cream"
       >
         ✕
       </button>

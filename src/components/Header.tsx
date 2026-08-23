@@ -39,7 +39,7 @@ export function Header({ categories }: { categories: MenuCategory[] }) {
             type="search"
             name="q"
             placeholder="Buscar peças"
-            className="w-full rounded-full border border-line bg-cream-dark/60 py-2 pl-9 pr-3 text-sm text-espresso placeholder:text-espresso-soft/70 focus:border-sage focus:outline-none"
+            className="w-full rounded-full border border-line bg-cream-dark/60 py-2 pl-9 pr-3 text-sm text-espresso transition placeholder:text-espresso-soft/70 focus:border-sage focus:outline-none"
           />
         </form>
 
