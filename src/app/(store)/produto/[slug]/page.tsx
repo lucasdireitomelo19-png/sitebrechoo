@@ -2,13 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatCentsToBRL } from "@/lib/money";
 import { AddToCartButton } from "@/components/AddToCartButton";
-
-const CONDITION_LABEL: Record<string, string> = {
-  NEW: "Novo",
-  LIKE_NEW: "Seminovo",
-  GOOD: "Bom estado",
-  FAIR: "Estado regular",
-};
+import { getDictionary } from "@/lib/i18n";
 
 export default async function ProductPage({
   params,
@@ -17,14 +11,24 @@ export default async function ProductPage({
 }) {
   const { slug } = await params;
 
-  const product = await prisma.product.findUnique({
-    where: { slug },
-    include: { images: { orderBy: { position: "asc" } }, category: true },
-  });
+  const [product, t] = await Promise.all([
+    prisma.product.findUnique({
+      where: { slug },
+      include: { images: { orderBy: { position: "asc" } }, category: true },
+    }),
+    getDictionary(),
+  ]);
 
   if (!product || product.status === "ARCHIVED") {
     notFound();
   }
+
+  const CONDITION_LABEL: Record<string, string> = {
+    NEW: t.common.conditionNew,
+    LIKE_NEW: t.common.conditionLikeNew,
+    GOOD: t.common.conditionGood,
+    FAIR: t.common.conditionFair,
+  };
 
   const mainImage = product.images[0]?.url ?? null;
   const available = product.status === "PUBLISHED" && product.stock > 0;
@@ -44,7 +48,7 @@ export default async function ProductPage({
                 <img src={mainImage} alt={product.title} className="h-full w-full object-cover" />
               ) : (
                 <div className="flex h-full w-full items-center justify-center text-sm text-espresso-soft">
-                  Sem foto
+                  {t.common.noPhoto}
                 </div>
               )}
             </div>
@@ -89,18 +93,18 @@ export default async function ProductPage({
             <dl className="mt-5 space-y-1.5 text-sm text-espresso-soft">
               {product.brand && (
                 <div className="flex gap-2">
-                  <dt className="font-medium text-espresso">Marca:</dt>
+                  <dt className="font-medium text-espresso">{t.product.brandLabel}</dt>
                   <dd>{product.brand}</dd>
                 </div>
               )}
               {product.size && (
                 <div className="flex gap-2">
-                  <dt className="font-medium text-espresso">Tamanho:</dt>
+                  <dt className="font-medium text-espresso">{t.product.sizeLabel}</dt>
                   <dd>{product.size}</dd>
                 </div>
               )}
               <div className="flex gap-2">
-                <dt className="font-medium text-espresso">Condição:</dt>
+                <dt className="font-medium text-espresso">{t.product.conditionLabel}</dt>
                 <dd>{CONDITION_LABEL[product.condition] ?? product.condition}</dd>
               </div>
             </dl>
@@ -117,6 +121,7 @@ export default async function ProductPage({
                 priceCents={product.priceCents}
                 image={mainImage}
                 maxStock={available ? product.stock : 0}
+                t={t.common}
               />
             </div>
           </div>

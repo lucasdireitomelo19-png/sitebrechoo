@@ -4,7 +4,13 @@ import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "brecho-announcement-dismissed";
 
-export function AnnouncementBar({ message }: { message: string }) {
+export function AnnouncementBar({
+  message,
+  closeLabel,
+}: {
+  message: string;
+  closeLabel: string;
+}) {
   const [dismissed, setDismissed] = useState(true);
 
   useEffect(() => {
@@ -19,7 +25,7 @@ export function AnnouncementBar({ message }: { message: string }) {
       <span>{message}</span>
       <button
         type="button"
-        aria-label="Fechar aviso"
+        aria-label={closeLabel}
         onClick={() => {
           localStorage.setItem(STORAGE_KEY, "1");
           setDismissed(true);

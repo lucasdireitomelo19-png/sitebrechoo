@@ -3,39 +3,9 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatCentsToBRL } from "@/lib/money";
 import { trackingUrl } from "@/lib/tracking";
+import { getDictionary, getLocale, format } from "@/lib/i18n";
 
-const STATUS_INFO: Record<string, { label: string; tone: string; description: string }> = {
-  PENDING: {
-    label: "Aguardando pagamento",
-    tone: "bg-amber-50 text-amber-700",
-    description: "Recebemos seu pedido. Em breve entraremos em contato para combinar o pagamento.",
-  },
-  PAID: {
-    label: "Pagamento confirmado",
-    tone: "bg-green-50 text-green-700",
-    description: "Seu pedido foi confirmado e já está sendo preparado para envio.",
-  },
-  CANCELED: {
-    label: "Cancelado",
-    tone: "bg-cream-dark text-espresso-soft",
-    description: "Este pedido foi cancelado.",
-  },
-  REFUNDED: {
-    label: "Reembolsado",
-    tone: "bg-cream-dark text-espresso-soft",
-    description: "O valor deste pedido foi reembolsado.",
-  },
-  SHIPPED: {
-    label: "Enviado",
-    tone: "bg-blue-50 text-blue-700",
-    description: "Seu pedido já foi enviado.",
-  },
-  DELIVERED: {
-    label: "Entregue",
-    tone: "bg-green-50 text-green-700",
-    description: "Seu pedido foi entregue.",
-  },
-};
+const DATE_LOCALE: Record<string, string> = { pt: "pt-BR", en: "en-US", es: "es-ES" };
 
 export default async function OrderStatusPage({
   params,
@@ -43,15 +13,52 @@ export default async function OrderStatusPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const order = await prisma.order.findUnique({
-    where: { id },
-    include: {
-      items: true,
-      trackingEvents: { orderBy: { occurredAt: "desc" } },
-    },
-  });
+  const [order, t, locale] = await Promise.all([
+    prisma.order.findUnique({
+      where: { id },
+      include: {
+        items: true,
+        trackingEvents: { orderBy: { occurredAt: "desc" } },
+      },
+    }),
+    getDictionary(),
+    getLocale(),
+  ]);
 
   if (!order) notFound();
+
+  const STATUS_INFO: Record<string, { label: string; tone: string; description: string }> = {
+    PENDING: {
+      label: t.order.statusPendingLabel,
+      tone: "bg-amber-50 text-amber-700",
+      description: t.order.statusPendingDesc,
+    },
+    PAID: {
+      label: t.order.statusPaidLabel,
+      tone: "bg-green-50 text-green-700",
+      description: t.order.statusPaidDesc,
+    },
+    CANCELED: {
+      label: t.order.statusCanceledLabel,
+      tone: "bg-cream-dark text-espresso-soft",
+      description: t.order.statusCanceledDesc,
+    },
+    REFUNDED: {
+      label: t.order.statusRefundedLabel,
+      tone: "bg-cream-dark text-espresso-soft",
+      description: t.order.statusRefundedDesc,
+    },
+    SHIPPED: {
+      label: t.order.statusShippedLabel,
+      tone: "bg-blue-50 text-blue-700",
+      description: t.order.statusShippedDesc,
+    },
+    DELIVERED: {
+      label: t.order.statusDeliveredLabel,
+      tone: "bg-green-50 text-green-700",
+      description: t.order.statusDeliveredDesc,
+    },
+  };
 
   const info = STATUS_INFO[order.status] ?? STATUS_INFO.PENDING;
   const link = trackingUrl(order.shippingCarrier, order.trackingCode);
@@ -60,9 +67,9 @@ export default async function OrderStatusPage({
     <div className="mx-auto max-w-2xl px-4 py-14 sm:px-6">
       <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
         <p className="text-xs font-semibold uppercase tracking-wider text-sage">
-          Pedido #{order.id.slice(-8)}
+          {format(t.order.orderNumber, { id: order.id.slice(-8) })}
         </p>
-        <h1 className="mt-1 font-extrabold text-3xl text-espresso">Obrigado pela compra!</h1>
+        <h1 className="mt-1 font-extrabold text-3xl text-espresso">{t.order.thankYou}</h1>
 
         <span className={`mt-4 inline-block rounded-full px-3 py-1 text-sm font-medium ${info.tone}`}>
           {info.label}
@@ -83,7 +90,7 @@ export default async function OrderStatusPage({
         </ul>
 
         <div className="mt-4 flex justify-between text-sm">
-          <span className="font-medium text-espresso-soft">Total</span>
+          <span className="font-medium text-espresso-soft">{t.order.total}</span>
           <span className="text-lg font-semibold text-espresso">
             {formatCentsToBRL(order.totalCents)}
           </span>
@@ -91,7 +98,7 @@ export default async function OrderStatusPage({
 
         {(order.trackingCode || order.trackingEvents.length > 0) && (
           <div className="mt-8 rounded-lg border border-line p-5">
-            <h2 className="text-sm font-semibold text-espresso">Rastreio</h2>
+            <h2 className="text-sm font-semibold text-espresso">{t.order.tracking}</h2>
             {order.trackingCode && (
               <p className="mt-1 text-sm text-espresso-soft">
                 {order.shippingCarrier && <>{order.shippingCarrier} · </>}
@@ -113,7 +120,7 @@ export default async function OrderStatusPage({
                     <p className="text-sm font-medium text-espresso">{event.status}</p>
                     {event.location && <p className="text-xs text-espresso-soft">{event.location}</p>}
                     <p className="mt-1 text-xs text-espresso-soft/70">
-                      {event.occurredAt.toLocaleString("pt-BR")}
+                      {event.occurredAt.toLocaleString(DATE_LOCALE[locale])}
                     </p>
                   </li>
                 ))}
@@ -126,7 +133,7 @@ export default async function OrderStatusPage({
           href="/"
           className="mt-8 inline-block rounded-full border border-espresso px-5 py-2.5 text-sm font-medium text-espresso transition hover:bg-cream-dark"
         >
-          Continuar comprando
+          {t.order.continueShopping}
         </Link>
       </div>
     </div>

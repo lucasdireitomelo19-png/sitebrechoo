@@ -1,12 +1,6 @@
 import Link from "next/link";
 import { formatCentsToBRL } from "@/lib/money";
-
-const CONDITION_LABEL: Record<string, string> = {
-  NEW: "Novo",
-  LIKE_NEW: "Seminovo",
-  GOOD: "Bom estado",
-  FAIR: "Estado regular",
-};
+import type { Dictionary } from "@/lib/i18n/dictionary";
 
 export type ProductCardData = {
   slug: string;
@@ -19,7 +13,19 @@ export type ProductCardData = {
   imageUrl: string | null;
 };
 
-export function ProductCard({ product }: { product: ProductCardData }) {
+export function ProductCard({
+  product,
+  t,
+}: {
+  product: ProductCardData;
+  t: Dictionary["common"];
+}) {
+  const CONDITION_LABEL: Record<string, string> = {
+    NEW: t.conditionNew,
+    LIKE_NEW: t.conditionLikeNew,
+    GOOD: t.conditionGood,
+    FAIR: t.conditionFair,
+  };
   const onSale = !!product.compareAtPriceCents && product.compareAtPriceCents > product.priceCents;
   const discountPct = onSale
     ? Math.round((1 - product.priceCents / product.compareAtPriceCents!) * 100)
@@ -37,7 +43,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-sm text-espresso-soft">
-            Sem foto
+            {t.noPhoto}
           </div>
         )}
         <span className="absolute left-2 top-2 rounded-full bg-cream/90 px-2 py-0.5 text-[11px] font-medium text-espresso shadow-sm">
@@ -59,7 +65,11 @@ export function ProductCard({ product }: { product: ProductCardData }) {
           {product.title}
         </p>
         <div className="mt-1 flex items-center justify-between">
-          {product.size && <p className="text-xs text-espresso">Tam. {product.size}</p>}
+          {product.size && (
+            <p className="text-xs text-espresso">
+              {t.size} {product.size}
+            </p>
+          )}
           <p className="flex items-baseline gap-1.5">
             {onSale && (
               <span className="text-xs text-espresso-soft line-through">

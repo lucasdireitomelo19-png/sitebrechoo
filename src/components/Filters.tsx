@@ -3,13 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FilterIcon } from "@/components/icons";
-
-const CONDITION_OPTIONS = [
-  { value: "NEW", label: "Novo" },
-  { value: "LIKE_NEW", label: "Seminovo" },
-  { value: "GOOD", label: "Bom estado" },
-  { value: "FAIR", label: "Estado regular" },
-];
+import type { Dictionary } from "@/lib/i18n/dictionary";
 
 function parseList(value: string | null) {
   return value ? value.split(",").filter(Boolean) : [];
@@ -18,15 +12,24 @@ function parseList(value: string | null) {
 export function Filters({
   sizes,
   brands,
+  t,
 }: {
   sizes: string[];
   brands: string[];
+  t: Dictionary;
 }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+
+  const CONDITION_OPTIONS = [
+    { value: "NEW", label: t.common.conditionNew },
+    { value: "LIKE_NEW", label: t.common.conditionLikeNew },
+    { value: "GOOD", label: t.common.conditionGood },
+    { value: "FAIR", label: t.common.conditionFair },
+  ];
 
   const selectedSizes = parseList(searchParams.get("tamanho"));
   const selectedConditions = parseList(searchParams.get("condicao"));
@@ -109,7 +112,7 @@ export function Filters({
         className="flex items-center gap-1.5 rounded-full bg-cream-dark px-3 py-1.5 text-sm font-medium text-espresso-soft transition hover:bg-cream-dark/70"
       >
         <FilterIcon className="h-4 w-4" />
-        Filtros
+        {t.filters.button}
         {activeCount > 0 && (
           <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-espresso px-1 text-[10px] font-semibold text-cream">
             {activeCount}
@@ -122,7 +125,7 @@ export function Filters({
           <div className="max-h-[60vh] space-y-5 overflow-y-auto pr-1">
             <div>
               <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-espresso">
-                Preço
+                {t.filters.price}
               </p>
               <div className="flex items-center gap-2">
                 <input
@@ -130,18 +133,18 @@ export function Filters({
                   ref={minPriceRef}
                   type="number"
                   min={0}
-                  placeholder="Mín."
+                  placeholder={t.filters.min}
                   defaultValue={searchParams.get("precoMin") ?? ""}
                   onBlur={applyPriceRange}
                   className="input w-full"
                 />
-                <span className="text-sm text-espresso-soft">até</span>
+                <span className="text-sm text-espresso-soft">{t.filters.to}</span>
                 <input
                   key={`max-${searchParams.get("precoMax") ?? ""}`}
                   ref={maxPriceRef}
                   type="number"
                   min={0}
-                  placeholder="Máx."
+                  placeholder={t.filters.max}
                   defaultValue={searchParams.get("precoMax") ?? ""}
                   onBlur={applyPriceRange}
                   className="input w-full"
@@ -152,7 +155,7 @@ export function Filters({
             {sizes.length > 0 && (
               <div>
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-espresso">
-                  Tamanho
+                  {t.filters.size}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {sizes.map((size) => (
@@ -175,7 +178,7 @@ export function Filters({
 
             <div>
               <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-espresso">
-                Condição
+                {t.filters.condition}
               </p>
               <div className="flex flex-wrap gap-2">
                 {CONDITION_OPTIONS.map((c) => (
@@ -198,7 +201,7 @@ export function Filters({
             {brands.length > 0 && (
               <div>
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-espresso">
-                  Marca
+                  {t.filters.brand}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {brands.map((brand) => (
@@ -226,7 +229,7 @@ export function Filters({
               onClick={clearAll}
               className="mt-4 w-full rounded-full border border-line py-2 text-sm font-medium text-espresso-soft transition hover:border-sage hover:text-sage-dark"
             >
-              Limpar filtros
+              {t.filters.clear}
             </button>
           )}
         </div>

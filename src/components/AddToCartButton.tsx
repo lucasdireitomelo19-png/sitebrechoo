@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cart";
+import type { Dictionary } from "@/lib/i18n/dictionary";
 
 export function AddToCartButton({
   productId,
@@ -11,6 +12,7 @@ export function AddToCartButton({
   priceCents,
   image,
   maxStock,
+  t,
 }: {
   productId: string;
   slug: string;
@@ -18,6 +20,7 @@ export function AddToCartButton({
   priceCents: number;
   image: string | null;
   maxStock: number;
+  t: Dictionary["common"];
 }) {
   const addItem = useCartStore((s) => s.addItem);
   const router = useRouter();
@@ -29,7 +32,7 @@ export function AddToCartButton({
         disabled
         className="w-full cursor-not-allowed rounded-full bg-cream-dark px-4 py-3 text-sm font-medium text-espresso-soft"
       >
-        Peça esgotada
+        {t.outOfStock}
       </button>
     );
   }
@@ -44,7 +47,7 @@ export function AddToCartButton({
         }}
         className="flex-1 rounded-full bg-espresso px-4 py-3 text-sm font-medium text-cream transition hover:bg-sage"
       >
-        {added ? "Adicionado ✓" : "Adicionar ao carrinho"}
+        {added ? t.added : t.addToCart}
       </button>
       <button
         onClick={() => {
@@ -53,7 +56,7 @@ export function AddToCartButton({
         }}
         className="flex-1 rounded-full border border-espresso px-4 py-3 text-sm font-medium text-espresso transition hover:bg-cream-dark"
       >
-        Comprar agora
+        {t.buyNow}
       </button>
     </div>
   );

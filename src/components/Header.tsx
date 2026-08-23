@@ -5,8 +5,19 @@ import Link from "next/link";
 import { useCartStore, cartItemCount } from "@/store/cart";
 import { SearchIcon, BagIcon, UserIcon } from "@/components/icons";
 import { MobileMenu, type MenuCategory } from "@/components/MobileMenu";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import type { Dictionary } from "@/lib/i18n/dictionary";
+import type { Locale } from "@/lib/i18n";
 
-export function Header({ categories }: { categories: MenuCategory[] }) {
+export function Header({
+  categories,
+  t,
+  locale,
+}: {
+  categories: MenuCategory[];
+  t: Dictionary;
+  locale: Locale;
+}) {
   const items = useCartStore((s) => s.items);
   const count = cartItemCount(items);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
@@ -26,7 +37,7 @@ export function Header({ categories }: { categories: MenuCategory[] }) {
   return (
     <header className="sticky top-0 z-10 border-b border-line bg-cream/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-4 sm:px-6">
-        <MobileMenu categories={categories} />
+        <MobileMenu categories={categories} t={t.header} />
 
         <Link
           href="/"
@@ -52,16 +63,18 @@ export function Header({ categories }: { categories: MenuCategory[] }) {
           <input
             type="search"
             name="q"
-            placeholder="Buscar peças"
+            placeholder={t.header.searchPlaceholder}
             className="w-full rounded-full border border-line bg-cream-dark/60 py-2 pl-9 pr-3 text-sm text-espresso transition placeholder:text-espresso-soft/70 focus:border-sage focus:outline-none"
           />
         </form>
 
         <div className="ml-auto flex items-center gap-4 sm:ml-0">
+          <LanguageSwitcher label={t.languageSwitcher.label} current={locale} />
+
           <div className="relative" ref={accountMenuRef}>
             <button
               type="button"
-              aria-label="Entrar"
+              aria-label={t.header.accountMenuLabel}
               aria-expanded={accountMenuOpen}
               onClick={() => setAccountMenuOpen((v) => !v)}
               className="text-espresso transition hover:text-sage"
@@ -76,20 +89,24 @@ export function Header({ categories }: { categories: MenuCategory[] }) {
                   onClick={() => setAccountMenuOpen(false)}
                   className="block px-4 py-2.5 text-sm font-medium text-espresso transition hover:bg-cream-dark/60"
                 >
-                  Área do cliente
+                  {t.header.customerArea}
                 </Link>
                 <Link
                   href="/admin/login"
                   onClick={() => setAccountMenuOpen(false)}
                   className="block border-t border-line px-4 py-2.5 text-sm font-medium text-espresso transition hover:bg-cream-dark/60"
                 >
-                  Área do administrador
+                  {t.header.adminArea}
                 </Link>
               </div>
             )}
           </div>
 
-          <Link href="/carrinho" aria-label="Carrinho" className="relative text-espresso transition hover:text-sage">
+          <Link
+            href="/carrinho"
+            aria-label={t.header.cartLabel}
+            className="relative text-espresso transition hover:text-sage"
+          >
             <BagIcon className="h-6 w-6" />
             {count > 0 && (
               <span className="absolute -right-2 -top-2 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-sage px-1 text-[10px] font-semibold text-cream">

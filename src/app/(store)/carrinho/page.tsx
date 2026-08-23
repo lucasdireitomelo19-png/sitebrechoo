@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useCartStore, cartTotalCents } from "@/store/cart";
 import { formatCentsToBRL } from "@/lib/money";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
 
 export default function CartPage() {
+  const { t } = useLocale();
   const items = useCartStore((s) => s.items);
   const setQuantity = useCartStore((s) => s.setQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
@@ -14,12 +16,12 @@ export default function CartPage() {
     return (
       <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
         <div className="rounded-2xl bg-white p-10 text-center shadow-sm">
-          <p className="text-espresso-soft">Seu carrinho está vazio.</p>
+          <p className="text-espresso-soft">{t.cart.empty}</p>
           <Link
             href="/"
             className="mt-4 inline-block rounded-full bg-espresso px-5 py-2.5 text-sm font-medium text-cream transition hover:bg-sage"
           >
-            Ver peças disponíveis
+            {t.common.seeAvailable}
           </Link>
         </div>
       </div>
@@ -29,7 +31,7 @@ export default function CartPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
       <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
-        <h1 className="mb-6 font-extrabold text-2xl text-espresso">Seu carrinho</h1>
+        <h1 className="mb-6 font-extrabold text-2xl text-espresso">{t.cart.title}</h1>
 
         <ul className="divide-y divide-line border-y border-line">
           {items.map((item) => (
@@ -64,7 +66,7 @@ export default function CartPage() {
                     onClick={() => removeItem(item.productId)}
                     className="text-sm text-espresso-soft transition hover:text-sage"
                   >
-                    Remover
+                    {t.common.remove}
                   </button>
                 </div>
               </div>
@@ -76,7 +78,7 @@ export default function CartPage() {
         </ul>
 
         <div className="mt-6 flex items-center justify-between">
-          <p className="text-sm font-medium text-espresso-soft">Total</p>
+          <p className="text-sm font-medium text-espresso-soft">{t.common.total}</p>
           <p className="text-xl font-semibold text-espresso">{formatCentsToBRL(total)}</p>
         </div>
 
@@ -84,7 +86,7 @@ export default function CartPage() {
           href="/checkout"
           className="mt-6 block w-full rounded-full bg-espresso px-4 py-3 text-center text-sm font-medium text-cream transition hover:bg-sage"
         >
-          Finalizar compra
+          {t.cart.checkout}
         </Link>
       </div>
     </div>

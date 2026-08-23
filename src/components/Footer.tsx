@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { InstagramIcon, WhatsappIcon } from "@/components/icons";
 import type { MenuCategory } from "@/components/MobileMenu";
+import type { Dictionary } from "@/lib/i18n/dictionary";
 
-export function Footer({ categories }: { categories: MenuCategory[] }) {
+export function Footer({ categories, t }: { categories: MenuCategory[]; t: Dictionary }) {
   const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
   const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP_URL;
   const instagram = process.env.NEXT_PUBLIC_INSTAGRAM_URL;
@@ -13,17 +14,17 @@ export function Footer({ categories }: { categories: MenuCategory[] }) {
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-5 sm:px-6">
         <div className="sm:col-span-1">
           <p className="font-extrabold text-2xl text-cream">Carcamana&apos;s</p>
-          <p className="mt-3 text-sm leading-relaxed">
-            Peças de segunda mão selecionadas com carinho. Moda circular, com estilo.
-          </p>
+          <p className="mt-3 text-sm leading-relaxed">{t.footer.tagline}</p>
         </div>
 
         <div>
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-cream">Comprar</p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-cream">
+            {t.footer.shop}
+          </p>
           <ul className="space-y-2 text-sm">
             <li>
               <Link href="/" className="transition hover:text-cream">
-                Todas as peças
+                {t.footer.allProducts}
               </Link>
             </li>
             {categories.map((c) => (
@@ -38,27 +39,24 @@ export function Footer({ categories }: { categories: MenuCategory[] }) {
 
         <div>
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-cream">
-            Como funciona
+            {t.footer.howItWorks}
           </p>
-          <p className="text-sm leading-relaxed">
-            Cada peça é única e vendida por unidade. Escolha, adicione ao carrinho e finalize a
-            compra — você recebe atualizações do pedido diretamente na página de status.
-          </p>
+          <p className="text-sm leading-relaxed">{t.footer.howItWorksText}</p>
         </div>
 
         <div>
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-cream">
-            Institucional
+            {t.footer.institutional}
           </p>
           <ul className="space-y-2 text-sm">
             <li>
               <Link href="/institucional" className="transition hover:text-cream">
-                Sobre nós
+                {t.footer.aboutUs}
               </Link>
             </li>
             <li>
               <Link href="/politica-de-troca" className="transition hover:text-cream">
-                Política de troca
+                {t.footer.returnPolicy}
               </Link>
             </li>
           </ul>
@@ -67,7 +65,7 @@ export function Footer({ categories }: { categories: MenuCategory[] }) {
         {hasContact && (
           <div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-cream">
-              Contato
+              {t.footer.contact}
             </p>
             <ul className="space-y-2 text-sm">
               {email && (
@@ -107,8 +105,8 @@ export function Footer({ categories }: { categories: MenuCategory[] }) {
       </div>
 
       <div className="border-t border-cream/10 px-4 py-5 text-xs text-cream/40 sm:px-6">
-        <p>Carcamana&apos;s Brechó — peças de segunda mão selecionadas com carinho.</p>
-        <p className="mt-1">Pagamentos processados com segurança via PagBank.</p>
+        <p>{t.footer.bottomLine1}</p>
+        <p className="mt-1">{t.footer.bottomLine2}</p>
       </div>
     </footer>
   );

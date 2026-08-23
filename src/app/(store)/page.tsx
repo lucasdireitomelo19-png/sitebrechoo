@@ -7,6 +7,7 @@ import { Hero } from "@/components/Hero";
 import { CategoryTiles } from "@/components/CategoryTiles";
 import { Reveal } from "@/components/Reveal";
 import { Filters } from "@/components/Filters";
+import { getDictionary, format } from "@/lib/i18n";
 
 export default async function HomePage({
   searchParams,
@@ -66,7 +67,7 @@ export default async function HomePage({
       : {}),
   };
 
-  const [categories, categoryTiles, products, availableSizes, availableBrands] = await Promise.all([
+  const [categories, categoryTiles, products, availableSizes, availableBrands, t] = await Promise.all([
     prisma.category.findMany({ orderBy: { name: "asc" } }),
     showDiscovery
       ? prisma.category.findMany({
@@ -98,13 +99,14 @@ export default async function HomePage({
       distinct: ["brand"],
       orderBy: { brand: "asc" },
     }),
+    getDictionary(),
   ]);
 
   return (
     <div>
       {showDiscovery && (
         <>
-          <Hero />
+          <Hero t={t.hero} />
           <div className="pt-10">
             <Reveal>
               <CategoryTiles
@@ -123,21 +125,21 @@ export default async function HomePage({
         <div className="mb-8">
           <h2 className="font-extrabold text-2xl text-espresso sm:text-3xl">
             {query
-              ? `Resultados para "${query}"`
+              ? format(t.home.searchResultsTitle, { query })
               : onSale
-                ? "Peças em promoção"
-                : "Peças selecionadas"}
+                ? t.home.saleTitle
+                : t.home.curatedTitle}
           </h2>
           <p className="mt-1 text-sm text-espresso">
             {query ? (
               <>
-                {products.length} peça(s) encontrada(s).{" "}
+                {products.length} {t.home.resultsFound}{" "}
                 <Link href="/" className="underline transition hover:text-sage-dark">
-                  Limpar busca
+                  {t.home.clearSearch}
                 </Link>
               </>
             ) : (
-              "Cada peça é única. Garanta a sua antes que acabe."
+              t.home.curatedSubtitle
             )}
           </p>
         </div>
@@ -151,7 +153,7 @@ export default async function HomePage({
                 : "bg-cream-dark text-espresso-soft hover:bg-cream-dark/70"
             }`}
           >
-            Todas
+            {t.home.all}
           </Link>
           <Link
             href="/?sale=1"
@@ -161,7 +163,7 @@ export default async function HomePage({
                 : "bg-cream-dark text-espresso-soft hover:bg-cream-dark/70"
             }`}
           >
-            Sale
+            {t.home.sale}
           </Link>
           {categories.map((c) => (
             <Link
@@ -181,6 +183,7 @@ export default async function HomePage({
             <Filters
               sizes={availableSizes.map((s) => s.size).filter((s): s is string => Boolean(s))}
               brands={availableBrands.map((b) => b.brand).filter((b): b is string => Boolean(b))}
+              t={t}
             />
           </Suspense>
         </div>
@@ -188,10 +191,10 @@ export default async function HomePage({
         {products.length === 0 ? (
           <p className="py-16 text-center text-sm text-espresso">
             {query
-              ? "Nenhuma peça encontrada para essa busca."
+              ? t.home.noResultsSearch
               : onSale
-                ? "Nenhuma peça em promoção no momento."
-                : "Nenhuma peça disponível nessa categoria no momento."}
+                ? t.home.noResultsSale
+                : t.home.noResultsCategory}
           </p>
         ) : (
           <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
@@ -208,6 +211,7 @@ export default async function HomePage({
                     condition: p.condition,
                     imageUrl: p.images[0]?.url ?? null,
                   }}
+                  t={t.common}
                 />
               </Reveal>
             ))}

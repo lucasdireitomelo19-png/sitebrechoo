@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { AuthError } from "next-auth";
 import { signIn } from "@/lib/auth";
+import { getDictionary } from "@/lib/i18n";
 
 export const metadata = {
   title: "Entrar | Carcamana's",
@@ -33,21 +34,21 @@ export default async function CustomerLoginPage({
 }: {
   searchParams: Promise<{ error?: string; callbackUrl?: string }>;
 }) {
-  const params = await searchParams;
+  const [params, t] = await Promise.all([searchParams, getDictionary()]);
   const callbackUrl = params.callbackUrl ?? "/minha-conta";
 
   return (
     <div className="mx-auto max-w-sm px-4 py-16 sm:px-6">
       <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
-        <p className="text-xs font-semibold uppercase tracking-wider text-sage">Minha conta</p>
-        <h1 className="mt-1 font-extrabold text-3xl text-espresso">Entrar</h1>
-        <p className="mt-2 text-sm text-espresso-soft">
-          Acompanhe seus pedidos e o rastreio das suas compras.
+        <p className="text-xs font-semibold uppercase tracking-wider text-sage">
+          {t.account.eyebrow}
         </p>
+        <h1 className="mt-1 font-extrabold text-3xl text-espresso">{t.account.login}</h1>
+        <p className="mt-2 text-sm text-espresso-soft">{t.account.loginSubtitle}</p>
 
         {params.error && (
           <p className="mt-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
-            E-mail ou senha inválidos.
+            {t.account.loginError}
           </p>
         )}
 
@@ -57,7 +58,7 @@ export default async function CustomerLoginPage({
             name="email"
             type="email"
             required
-            placeholder="E-mail"
+            placeholder={t.account.email}
             autoComplete="email"
             className="store-input"
           />
@@ -65,7 +66,7 @@ export default async function CustomerLoginPage({
             name="password"
             type="password"
             required
-            placeholder="Senha"
+            placeholder={t.account.password}
             autoComplete="current-password"
             className="store-input"
           />
@@ -73,14 +74,14 @@ export default async function CustomerLoginPage({
             type="submit"
             className="w-full rounded-full bg-espresso px-4 py-3 text-sm font-medium text-cream transition hover:bg-sage"
           >
-            Entrar
+            {t.account.login}
           </button>
         </form>
 
         <p className="mt-6 text-sm text-espresso-soft">
-          Ainda não tem conta?{" "}
+          {t.account.noAccount}{" "}
           <Link href="/minha-conta/cadastro" className="font-medium text-sage transition hover:underline">
-            Cadastre-se
+            {t.account.signUp}
           </Link>
         </p>
       </div>

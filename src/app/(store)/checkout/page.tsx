@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useCartStore, cartTotalCents } from "@/store/cart";
 import { formatCentsToBRL } from "@/lib/money";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
 
 export default function CheckoutPage() {
+  const { t } = useLocale();
   const items = useCartStore((s) => s.items);
   const router = useRouter();
   const total = cartTotalCents(items);
@@ -18,12 +20,12 @@ export default function CheckoutPage() {
     return (
       <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
         <div className="rounded-2xl bg-white p-10 text-center shadow-sm">
-          <p className="text-espresso-soft">Seu carrinho está vazio.</p>
+          <p className="text-espresso-soft">{t.cart.empty}</p>
           <Link
             href="/"
             className="mt-4 inline-block rounded-full bg-espresso px-5 py-2.5 text-sm font-medium text-cream transition hover:bg-sage"
           >
-            Ver peças disponíveis
+            {t.common.seeAvailable}
           </Link>
         </div>
       </div>
@@ -63,7 +65,7 @@ export default function CheckoutPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error ?? "Não foi possível registrar seu pedido.");
+        setError(data.error ?? t.checkout.genericError);
         setLoading(false);
         if (data.orderId) {
           router.push(`/pedido/${data.orderId}`);
@@ -80,7 +82,7 @@ export default function CheckoutPage() {
 
       router.push(`/pedido/${data.orderId}`);
     } catch {
-      setError("Erro de conexão. Tente novamente.");
+      setError(t.checkout.connectionError);
       setLoading(false);
     }
   }
@@ -88,11 +90,13 @@ export default function CheckoutPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
       <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
-        <h1 className="mb-6 font-extrabold text-2xl text-espresso">Finalizar compra</h1>
+        <h1 className="mb-6 font-extrabold text-2xl text-espresso">{t.checkout.title}</h1>
 
         <div className="mb-6 rounded-md bg-cream-dark/60 p-4 text-sm text-espresso-soft">
           <p className="flex justify-between">
-            <span>{items.length} peça(s)</span>
+            <span>
+              {items.length} {t.checkout.items}
+            </span>
             <span className="font-semibold text-espresso">{formatCentsToBRL(total)}</span>
           </p>
         </div>
@@ -103,33 +107,35 @@ export default function CheckoutPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <fieldset className="space-y-3">
-            <legend className="mb-1 text-sm font-semibold text-espresso">Seus dados</legend>
-            <input name="name" required placeholder="Nome completo" className="store-input" />
-            <input name="email" type="email" required placeholder="E-mail" className="store-input" />
+            <legend className="mb-1 text-sm font-semibold text-espresso">{t.checkout.yourData}</legend>
+            <input name="name" required placeholder={t.checkout.fullName} className="store-input" />
+            <input name="email" type="email" required placeholder={t.checkout.email} className="store-input" />
             <div className="grid grid-cols-2 gap-3">
-              <input name="phone" required placeholder="Telefone (com DDD)" className="store-input" />
-              <input name="taxId" required placeholder="CPF" className="store-input" />
+              <input name="phone" required placeholder={t.checkout.phone} className="store-input" />
+              <input name="taxId" required placeholder={t.checkout.taxId} className="store-input" />
             </div>
           </fieldset>
 
           <fieldset className="space-y-3">
-            <legend className="mb-1 text-sm font-semibold text-espresso">Endereço de entrega</legend>
+            <legend className="mb-1 text-sm font-semibold text-espresso">
+              {t.checkout.shippingAddress}
+            </legend>
             <div className="grid grid-cols-3 gap-3">
-              <input name="street" required placeholder="Rua" className="store-input col-span-2" />
-              <input name="number" required placeholder="Número" className="store-input" />
+              <input name="street" required placeholder={t.checkout.street} className="store-input col-span-2" />
+              <input name="number" required placeholder={t.checkout.number} className="store-input" />
             </div>
-            <input name="complement" placeholder="Complemento (opcional)" className="store-input" />
+            <input name="complement" placeholder={t.checkout.complement} className="store-input" />
             <div className="grid grid-cols-3 gap-3">
-              <input name="city" required placeholder="Cidade" className="store-input col-span-2" />
+              <input name="city" required placeholder={t.checkout.city} className="store-input col-span-2" />
               <input
                 name="state"
                 required
                 maxLength={2}
-                placeholder="UF"
+                placeholder={t.checkout.state}
                 className="store-input uppercase"
               />
             </div>
-            <input name="zip" required placeholder="CEP" className="store-input" />
+            <input name="zip" required placeholder={t.checkout.zip} className="store-input" />
           </fieldset>
 
           <button
@@ -137,7 +143,7 @@ export default function CheckoutPage() {
             disabled={loading}
             className="w-full rounded-full bg-espresso px-4 py-3 text-sm font-medium text-cream transition hover:bg-sage disabled:opacity-60"
           >
-            {loading ? "Redirecionando para pagamento..." : "Pagar com PagBank"}
+            {loading ? t.checkout.redirecting : t.checkout.payButton}
           </button>
         </form>
       </div>
