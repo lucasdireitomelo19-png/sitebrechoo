@@ -61,7 +61,15 @@ export function MobileMenu({ categories }: { categories: MenuCategory[] }) {
                   onClick={() => setOpen(false)}
                   className="mt-2 flex items-center justify-between border-t border-line px-4 py-3 text-sm font-medium text-espresso transition hover:bg-cream-dark/60"
                 >
-                  Minha conta
+                  Área do cliente
+                  <ChevronRightIcon className="h-4 w-4 text-espresso-soft" />
+                </Link>
+                <Link
+                  href="/admin/login"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-between px-4 py-3 text-sm font-medium text-espresso transition hover:bg-cream-dark/60"
+                >
+                  Área do administrador
                   <ChevronRightIcon className="h-4 w-4 text-espresso-soft" />
                 </Link>
               </nav>

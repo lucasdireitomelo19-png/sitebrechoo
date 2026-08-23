@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useCartStore, cartItemCount } from "@/store/cart";
 import { SearchIcon, BagIcon, UserIcon } from "@/components/icons";
@@ -8,6 +9,19 @@ import { MobileMenu, type MenuCategory } from "@/components/MobileMenu";
 export function Header({ categories }: { categories: MenuCategory[] }) {
   const items = useCartStore((s) => s.items);
   const count = cartItemCount(items);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+  const accountMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!accountMenuOpen) return;
+    function handleClickOutside(e: MouseEvent) {
+      if (accountMenuRef.current && !accountMenuRef.current.contains(e.target as Node)) {
+        setAccountMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [accountMenuOpen]);
 
   return (
     <header className="sticky top-0 z-10 border-b border-line bg-cream/95 backdrop-blur">
@@ -44,13 +58,36 @@ export function Header({ categories }: { categories: MenuCategory[] }) {
         </form>
 
         <div className="ml-auto flex items-center gap-4 sm:ml-0">
-          <Link
-            href="/minha-conta"
-            aria-label="Minha conta"
-            className="text-espresso transition hover:text-sage"
-          >
-            <UserIcon className="h-6 w-6" />
-          </Link>
+          <div className="relative" ref={accountMenuRef}>
+            <button
+              type="button"
+              aria-label="Entrar"
+              aria-expanded={accountMenuOpen}
+              onClick={() => setAccountMenuOpen((v) => !v)}
+              className="text-espresso transition hover:text-sage"
+            >
+              <UserIcon className="h-6 w-6" />
+            </button>
+
+            {accountMenuOpen && (
+              <div className="absolute right-0 top-full mt-2 w-48 overflow-hidden rounded-md border border-line bg-white shadow-lg">
+                <Link
+                  href="/minha-conta"
+                  onClick={() => setAccountMenuOpen(false)}
+                  className="block px-4 py-2.5 text-sm font-medium text-espresso transition hover:bg-cream-dark/60"
+                >
+                  Área do cliente
+                </Link>
+                <Link
+                  href="/admin/login"
+                  onClick={() => setAccountMenuOpen(false)}
+                  className="block border-t border-line px-4 py-2.5 text-sm font-medium text-espresso transition hover:bg-cream-dark/60"
+                >
+                  Área do administrador
+                </Link>
+              </div>
+            )}
+          </div>
 
           <Link href="/carrinho" aria-label="Carrinho" className="relative text-espresso transition hover:text-sage">
             <BagIcon className="h-6 w-6" />
